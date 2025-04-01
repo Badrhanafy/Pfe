@@ -63,9 +63,10 @@
                                 <div class="card h-100 border-0 rounded-4 overflow-hidden">
                                     <!-- Card Background -->
                                     <div class="position-relative">
-                                        <div class="bg-image h-100" style="background-image: url('{{ asset('storage/images/backg.jpg') }}'); background-size: cover; background-position: center;"></div>
+                                        <div class="bg-image h-100" style="background-image: url('{{ asset('images/backg.jpg') }}'); background-size: cover; background-position: center;"></div>
                                         <div class="overlay position-absolute w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));"></div>
                                     </div>
+                                    
                     
                                     <!-- Profile Photo -->
                                     <div class="profile-photo-container position-absolute top-0 start-0 mt-4 ms-4">
@@ -108,7 +109,11 @@
                             </div>
                         @endforeach
                     </div>
-
+{{-- @if (Auth::user()->progilePhoto)
+<p>lienr : {{ asset('storage/' . Auth::user()->profilePhoto) }}</p>
+@else
+    <p>no photo path</p>
+@endif --}}
                     <!-- Pagination -->
                     <div class="d-flex justify-content-center mt-5">
                        {{--  {{ $artisans->links('pagination::bootstrap-5') }} --}}

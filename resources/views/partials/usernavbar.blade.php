@@ -11,7 +11,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
         <div class="container-fluid">
             <!-- Brand with icon -->
-            <a class="navbar-brand fw-bold" href="#">
+            <a class="navbar-brand fw-bold" href="{{ route('welcome') }}">
                 <i class="fas fa-briefcase me-2 text-primary"></i>ProConnect
             </a>
 
@@ -65,12 +65,11 @@
                            data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 @if(Auth::check())  
-                        <img src="{{ asset('storage/' . (Auth::user()->progilePhoto ?? 'images/avatar.jpg'))}}" alt="Profile Picture" width="40" height="40 "
-                        class="rounded-circle me-2" 
-                        alt="Profile" 
-                        style="width: 32px; height: 32px;"
-                        >
-                        {{ Auth::user()->name }}
+                                <img src=" {{ asset('storage/' . (Auth::user()->progilePhoto)) }}" 
+                                alt="Profile Picture"
+                                class="rounded-circle me-2"
+                                style="width: 32px; height: 32px;">     
+                        {{ Auth::user()->progilePhoto  }}
                     @else
                         Guest
                     @endif

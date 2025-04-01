@@ -25,7 +25,7 @@ Route::middleware(['auth.custom'])->group(function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 Route::get("/Userlogin",[LoginController::class,'loginform'])->name('loginform');
 Route::post("/Userlogin",[LoginController::class,'checklogin'])->name('checklogin');
 

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
     ///// Sign up methods 
@@ -24,9 +26,12 @@ class LoginController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'role' => 'required|in:admin,user',
-            'prohilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3000',
+            'progilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3000',
         ]);
-
+        $photoPath = null;
+        if ($request->hasFile('progilePhoto')) {
+            $photoPath = $request->file('progilePhoto')->store('photos', 'public');
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -37,7 +42,12 @@ class LoginController extends Controller
             'progilePhoto' => $request->photoProfile,
         ]);
 
-        Auth::login($user);
+        $fileName = time() . '_' . $request->file('photoPtofile')->getClientOriginalName();
+        $request->file('photoPtofile')->storeAs('public/photos', $fileName);
+    
+        // 3️⃣ Mettre à jour DB b file name
+        $user->progilePhoto = $fileName;
+        $user->save();
 
         return to_route('loginform')->with("success","the account was successfuly created !");
     }
@@ -70,11 +80,11 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout(); // Kaydir logout l user
-        
-        $request->session()->invalidate(); // Kayms7 session
-        $request->session()->regenerateToken(); // Kayjib token jdida
-
-        return redirect('/Userlogin')->with('success', 'You have been logged out.');
+       
+        Session::flush(); // Clear all session data
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/Userlogin');
     }
 
     

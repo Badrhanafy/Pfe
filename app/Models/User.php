@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
-    protected $fillable = ['name', 'email', 'password', 'phone', 'address', 'role'];
+    protected $fillable = ['name', 'email', 'password', 'phone', 'address', 'role','progilePhoto'];
 
     public function reviews()
     {
