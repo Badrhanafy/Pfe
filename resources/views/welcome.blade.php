@@ -19,9 +19,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .slider-height {
-            height: 500px;
-        }
+        
         
         .service-card {
             transition: transform 0.3s;
@@ -95,45 +93,49 @@
 </html>
 
     <!-- Slider -->
-    <div id="mainSlider" class="carousel slide slider-height" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="2"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="" class="d-block w-100 h-100 object-fit-cover" alt="Construction Services">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1 class="display-4 text-shadow">Find Professional Construction Experts</h1>
-                    <p class="text-shadow">Quality workmanship at affordable prices</p>
-                    <button class="btn btn-primary btn-lg">Search Now</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="public/storage/repair.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Beauty Services">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1 class="display-4 text-shadow">Expert Beauty & Wellness Services</h1>
-                    <p class="text-shadow">Transform your look with professional stylists</p>
-                    <button class="btn btn-primary btn-lg">Browse Services</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://source.unsplash.com/random/1600x900/?repair" class="d-block w-100 h-100 object-fit-cover" alt="Repair Services">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1 class="display-4 text-shadow">Reliable Home Repair Specialists</h1>
-                    <p class="text-shadow">Fix it right the first time</p>
-                    <button class="btn btn-primary btn-lg">Find Artisans</button>
-                </div>
+    <!-- Slider -->
+<div id="mainSlider" class="carousel slide slider-height    " data-bs-ride="carousel">
+    
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="http://127.0.0.1:8000/images/jardin.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Construction Services">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-4 text-shadow text-white fw-bold">Does your garden need restoration or care?</h1>
+                <p class="text-shadow">Unparalleled craftsmanship, competitive pricing.</p>
+                <button class="btn btn-primary btn-lg">Find Experts</button>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
+        <div class="carousel-item">
+            <img src="http://127.0.0.1:8000/images/homeServices.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Beauty Services">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-4 text-shadow fw-bold">Revitalize with Expert Beauty & Wellness</h1>
+                <p class="text-shadow">Elevate your style with top-tier professionals.</p>
+                <button class="btn btn-primary btn-lg">Explore Services</button>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="http://127.0.0.1:8000/images/repair.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Repair Services">
+            <div class="carousel-caption d-none d-md-block">
+                <h1 class="display-4 text-shadow fw-bold">Need Car Repairs?</h1>
+                <p class="text-shadow">Connect with a wide range of specialists.</p>
+                <button class="btn btn-primary btn-lg">Find Mechanics</button>
+            </div>
+        </div>
     </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+    {{-- carousel indecatiors  --}}
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="2"></button>
+    </div>
+</div>
 
     <!-- Introduction Section -->
     <section class="section-padding bg-light">
@@ -145,23 +147,7 @@
                         Connect with verified professionals for all your home improvement, repair, and service needs.
                         Browse through thousands of artisans with verified reviews and ratings.
                     </p>
-                    <div class="search-box mx-auto" style="max-width: 600px;">
-                        <div class="input-group">
-                            <select class="form-select" id="serviceType">
-                                <option selected>Choose Service</option>
-                                <option>Plumbing</option>
-                                <option>Electrical</option>
-                                <option>Carpentry</option>
-                                <option>Painting</option>
-                                <option>Beauty Services</option>
-                                <option>More...</option>
-                            </select>
-                            <input type="text" class="form-control" placeholder="Location" aria-label="Location">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search me-1"></i> Search
-                            </button>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -189,8 +175,8 @@
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Secure Payments</h3>
-                    <p>Pay securely through our platform with multiple payment options available.</p>
+                    <h3>Direct contact</h3>
+                    <p>Contact the artisans directly without any intermidiates</p>
                 </div>
             </div>
         </div>
@@ -234,16 +220,376 @@
             </div>
         </div>
     </section>
+   {{-- Artisans highlights and benefits --}}
+<section class="artisan-benefits section-padding  text-center" style="background-color:rgb(249,245,253)">
+    <div class="container">
+        <h2 class="section-title mb-4">Why Join Our Platform?</h2>
+        <p class="section-subtitle mb-5">As an artisan, you have a lot to gain by joining our community. Discover the benefits below.</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="card-inner">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>High Reputation</h3>
+                    <p>Build your reputation with verified reviews and ratings from satisfied customers.</p>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="card-inner">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>More Clients</h3>
+                    <p>Expand your client base by reaching thousands of potential customers.</p>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="card-inner">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Perfect Style</h3>
+                    <p>Showcase your work in a beautifully designed and responsive layout.</p>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="card-inner">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Grow Your Business</h3>
+                    <p>Use our tools to manage bookings, track your earnings, and grow your business.</p>
+                </div>
+            </div>
+        </div>
+        
+        <a href="{{ route('showSignUpForm') }}" class="cta-button">
+            <span>Join Now</span>
+            <svg viewBox="0 0 13 10" height="10px" width="15px">
+                <path d="M1,5 L11,5"></path>
+                <polyline points="8 1 12 5 8 9"></polyline>
+            </svg>
+        </a>
+    </div>
+
+    <style>
+        .artisan-benefits {
+            padding: 100px 0;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.2s;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .benefit-card {
+            perspective: 1000px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .card-inner {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-inner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(106,17,203,0.1));
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .benefit-card:hover .card-inner {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .benefit-card:hover .card-inner::before {
+            transform: rotate(45deg) translateY(20%);
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .icon-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #6a11cb;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .benefit-card:hover .icon-wrapper {
+            transform: scale(1.1);
+        }
+
+        .benefit-card:hover .icon-wrapper::after {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2d3436;
+            transition: color 0.3s ease;
+        }
+
+        .benefit-card p {
+            color: #636e72;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 40px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s ease;
+            margin-top: 50px;
+        }
+
+        .cta-button svg {
+            margin-left: 10px;
+            stroke: white;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255,255,255,0.3),
+                transparent
+            );
+            transition: all 0.6s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106,17,203,0.2);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Animation Classes */
+        .animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        @media (max-width: 768px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px'
+            };
+
+            const animateOnScroll = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements
+            document.querySelectorAll('.section-title, .section-subtitle, .benefit-card').forEach(el => {
+                animateOnScroll.observe(el);
+            });
+
+            // Stagger animation for benefit cards
+            document.querySelectorAll('.benefit-card').forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</section>
 
     <!-- Call to Action -->
     <section class="section-padding bg-gradient text-white text-center">
         <div class="container">
             <h2 class="mb-4">Ready to Find Your Perfect Artisan?</h2>
             <p class="lead mb-5">Join thousands of satisfied customers who've found quality service providers through our platform.</p>
-            <a href="#" class="btn btn-light btn-lg px-5">Get Started</a>
+            <a href="#" id="getStartedBtn" class="btn btn-light btn-lg px-5">Get Started <i class="fas fa-arrow-right"></i></a>
+    
+            <!-- Modal -->
+            <div class="modal fade" id="profileTypeModal" tabindex="-1" role="dialog" aria-labelledby="profileTypeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="profileTypeModalLabel">Choose Your Profile Type</h5>
+                            <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-times-circle"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p class="mb-4">Please select your profile type:</p>
+                            <a href="{{ route('register') }}" class="btn btn-light btn-lg px-5 mb-2">User <i class="fas fa-user"></i></a>
+                            <a href="{{ route('showSignUpForm') }}" class="btn btn-light btn-lg px-5">Artisan <i class="fas fa-paint-brush"></i></a>
+                        </div>
+                    </div>
+                    <script>
+                            document.getElementById('colse').addEventListener('click',function(){
+                                document.getElementById('profileTypeModal').style.display='none';
+                            })
+                    </script>
+                </div>
+            </div>
         </div>
-    </section>
+    
+        <style>
+                                  .section-padding {
+    padding: 80px 0;
+    /* background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); */
+}
 
+.btn-light {
+    background-color: #fff;
+    border-color: #fff;
+    color: #6a11cb;
+    transition: all 0.3s ease;
+}
+.close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+}
+.close:hover {
+    color: #ddd;
+}
+.btn-light:hover {
+    background-color: #6a11cb;
+    border-color: #6a11cb;
+    color: #fff;
+}
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - (1.75rem * 2));
+}
+
+.modal-content {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    background-color: #6a11cb;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-body {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#getStartedBtn').click(function (e) {
+            e.preventDefault();
+            $('#profileTypeModal').modal('show');
+        });
+    });
+</script>
+    </section>
     <!-- Footer -->
     <footer class="bg-dark text-white py-5">
         <div class="container">

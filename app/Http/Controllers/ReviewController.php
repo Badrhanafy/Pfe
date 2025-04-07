@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Artisan;
-use App\Models\Reviews;
+use App\Models\Review;
 class ReviewController extends Controller
 {
     public function store(Request $request, Artisan $artisan)
@@ -14,7 +14,7 @@ class ReviewController extends Controller
             'comment' => 'nullable|string|max:1000',
         ]);
 
-        Reviews::create([
+        Review::create([
             'artisan_id' => $artisan->id,
             'user_id' => auth()->id(),
             'rating' => $request->rating,

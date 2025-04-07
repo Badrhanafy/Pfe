@@ -103,6 +103,11 @@
             color: #dc3545;
             margin-left: 3px;
         }
+
+        .alert {
+            margin-top: 15px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -124,7 +129,16 @@
             <div class="col-lg-6">
                 <div class="form-content">
                     <h3 class="form-title">Create Account <i class="fas fa-user-plus text-primary ms-2"></i></h3>
-                    <form action="{{ route('saveUser') }}" method="POST">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{ route('usersave') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <!-- Left Column -->
@@ -133,39 +147,39 @@
                                     <i class="fas fa-user"></i>
                                     <input type="text" name="name" class="form-control" placeholder="Full Name" required>
                                 </div>
-
+                    
                                 <div class="input-group">
                                     <i class="fas fa-envelope"></i>
                                     <input type="email" name="email" class="form-control" placeholder="Email Address" required>
                                 </div>
-
+                    
                                 <div class="input-group">
                                     <i class="fas fa-lock"></i>
                                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                                 </div>
-
+                    
                                 <div class="input-group">
                                     <i class="fas fa-lock"></i>
                                     <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
                                 </div>
                                 <div class="input-group">
                                     <i class="fas fa-lock"></i>
-                                    <input type="file" name="photoProfile" class="form-control" >
+                                    <input type="file" name="progilePhoto" class="form-control">
                                 </div>
                             </div>
-
+                    
                             <!-- Right Column -->
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <i class="fas fa-phone"></i>
                                     <input type="text" name="phone" class="form-control" placeholder="Phone Number">
                                 </div>
-
+                    
                                 <div class="input-group">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <input type="text" name="address" class="form-control" placeholder="Full Address">
                                 </div>
-
+                    
                                 <div class="input-group">
                                     <i class="fas fa-user-tag"></i>
                                     <select name="role" class="form-select" required>
@@ -173,7 +187,25 @@
                                         <option value="admin">Administrator</option>
                                     </select>
                                 </div>
-
+                                
+                                <!-- Gender Field -->
+                                <div class="input-group">
+                                    <i class="fas fa-venus-mars"></i>
+                                    <select name="gender" class="form-select" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="prefer_not_to_say">Prefer Not to Say</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Date of Birth Field -->
+                                <div class="input-group">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <input type="date" name="date_of_birth" class="form-control" required>
+                                </div>
+                    
                                 <div class="d-grid mt-4">
                                     <button type="submit" class="btn btn-primary btn-register">
                                         Complete Registration <i class="fas fa-arrow-right ms-2"></i>
@@ -181,7 +213,7 @@
                                 </div>
                             </div>
                         </div>
-
+                    
                         <p class="text-muted mt-4 text-center">
                             Already have an account? 
                             <a href="{{ route('loginform') }}" class="text-decoration-none text-primary">Sign In</a>

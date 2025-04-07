@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('progilePhoto')->nullable();
             $table->enum('role', ['admin', 'user'])->default('user'); // Admin or User
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->timestamps();
         });
     }

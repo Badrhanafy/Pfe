@@ -5,14 +5,15 @@ use App\Models\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 class ArtisanController extends Controller
 {
-    public function SignUpForm(){
-        return view('artisans.signUp');
+    public function showSignUpForm(){
+        return view('artisans.register');
     }
-    public function showform(){
+   /*  public function showform(){
         return view('artisans.signUp');
-    }
+    } */
     public function store(Request $request)
     {
         // Validate form data
@@ -25,6 +26,7 @@ class ArtisanController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:255',
             'bio' => 'nullable|string|max:500',
+            'experience_years' => 'nullable|integer|min:1',
         ]);
 
         // Handle the photo upload
@@ -34,7 +36,7 @@ class ArtisanController extends Controller
         }
 
         // Create new artisan record
-        Artisan::create([
+       $artisan =  Artisan::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Encrypt password
@@ -43,44 +45,51 @@ class ArtisanController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'bio' => $request->bio,
+            'experience_years' => $request->experience_years,
         ]);
-
-        return redirect()->route('artisans.index')->with('success', 'Artisan created successfully');
+         $id = $artisan['id'];
+        return view('artisans.profile',compact('id','artisan'))->with('success', 'Artisan created successfully');
     }
     //////// home
     public function index(Request $request)
-{
-    // Start with a Query Builder instance
-    $query = Artisan::query();
+    {
+        $query = Artisan::query()
+            ->withCount(['reviews as reviews_count'])
+            ->withAvg(['reviews as average_rating'], 'rating')
+            ->when($request->search, function($q) use ($request) {
+                $q->where(function($query) use ($request) {
+                    $query->where('name', 'like', "%{$request->search}%")
+                          ->orWhere('profession', 'like', "%{$request->search}%");
+                });
+            })
+            ->when($request->profession, fn($q, $prof) => $q->where('profession', $prof))
+            ->when($request->location, fn($q, $loc) => $q->where('address', 'like', "%{$loc}%"));
 
-    // Filter with search
-    if ($request->filled('search')) {
-        $query->where('name', 'like', "%{$request->search}%")
-              ->orWhere('profession', 'like', "%{$request->search}%");
-    }
+        // Apply sorting
+        switch ($request->sort) {
+            case 'name_desc':
+                $query->orderBy('name', 'desc');
+                break;
+            case 'rating_asc':
+                $query->orderBy('average_rating', 'asc');
+                break;
+            case 'rating_desc':
+                $query->orderBy('average_rating', 'desc');
+                break;
+            default: // name_asc
+                $query->orderBy('name', 'asc');
+        }
 
-    // Filter by profession
-    if ($request->filled('profession')) {
-        $query->where('profession', $request->profession);
-    }
+        $professions = Artisan::distinct('profession')
+            ->orderBy('profession')
+            ->pluck('profession');
 
-    // Filter by location
-    if ($request->filled('location')) {
-        $query->where('address', 'like', "%{$request->location}%");
-    }
-
-    // Apply pagination AFTER filtering
-    $artisans = $query->paginate(9);
-
-    // Get all unique professions for the dropdown
-    $professions = Artisan::distinct('profession')->pluck('profession')->sort();
-
-    return view('artisans.index', [
-        'artisans' => $artisans,
-        'professions' => $professions
-    ]);
-}
-    
+        return view('artisans.index', [
+            'artisans' => $query->paginate(12),
+            'professions' => $professions,
+            'filters' => $request->only(['search', 'profession', 'location', 'sort'])
+        ]);
+    }    
     public function test()
     {
         $artisans = Artisan::paginate(9);
@@ -133,5 +142,67 @@ public function show(Artisan $artisan)
         'reviews' => $reviews
     ]);
 }
+public function filterArtisans(Request $request)
+    {
+        $search = $request->input('search');
+        $profession = $request->input('profession');
+        $location = $request->input('location');
+
+        $query = Artisan::query();
+
+        if (!empty($search)) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('profession', 'LIKE', "%{$search}%");
+        }
+
+        if (!empty($profession)) {
+            $query->where('profession', $profession);
+        }
+
+        if (!empty($location)) {
+            $query->where('address', 'LIKE', "%{$location}%");
+        }
+
+        $artisans = $query->get();
+
+        return response()->json(['artisans' => $artisans]);
+    }
+    public function profile($id)
+    {
+        $artisan = Artisan::findOrFail($id);
+        
+        return view('artisans.profile', [
+            'artisan' => $artisan
+        ]);
+    }
+     /// messages part 
+    public function messages($artisanId)
+    {
+        $artisan = Artisan::findOrFail($artisanId);
+        $messages = $artisan->messages()->with('sender')->latest()->get();
+
+        return view('artisans.messages', compact('messages'));
+    }
+    ///////////////////////// login part
+
+    public function loginform(){
+        return view('artisans.login');
+    }
+    public function checkLogin(Request $req){
+        
+        $credentials = [
+            'email'=>$req->email,
+            'password'=>$req->password,
+        ];
+        if(Auth::guard('artisans')->attempt($credentials)){
+            $artisan = Artisan::where('email', $req->email)->first();
+            return redirect("artisans/$artisan->id");
+          // return redirect('artisans/'.$artisan["id"].'/details');
+        }
+        else{
+            return  back()->withErrors(['email' => 'Invalid credentials']);
+        }
+    }
+
 }
     

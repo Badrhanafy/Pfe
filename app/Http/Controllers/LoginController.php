@@ -17,39 +17,44 @@ class LoginController extends Controller
         return view('user.register');
     }
 
-    public function register(Request $request)
+    public function usersave(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-            'role' => 'required|in:admin,user',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
             'progilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3000',
+            //'profession' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'bio' => 'nullable|string|max:500',
+            'gender' => 'required|string|in:male,female,other,prefer_not_to_say',
+             'date_of_birth' => 'required|date',
         ]);
-        $photoPath = null;
+    
+        // Handle file upload if a file is provided
+        $fileName = null;
         if ($request->hasFile('progilePhoto')) {
-            $photoPath = $request->file('progilePhoto')->store('photos', 'public');
+            $file = $request->file('progilePhoto');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/photos', $fileName);
         }
+    
+        // Create the user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'progilePhoto' => $fileName, // Save the file name if a file was uploaded
+            //'profession' => $request->profession,
             'phone' => $request->phone,
             'address' => $request->address,
-            'role' => $request->role,
-            'progilePhoto' => $request->photoProfile,
+            'bio' => $request->bio,
+            'date_of_birth'=>$request->date_of_birth,
+            'gender'=>$request->gender,
         ]);
-
-        $fileName = time() . '_' . $request->file('photoPtofile')->getClientOriginalName();
-        $request->file('photoPtofile')->storeAs('public/photos', $fileName);
     
-        // 3️⃣ Mettre à jour DB b file name
-        $user->progilePhoto = $fileName;
-        $user->save();
-
-        return to_route('loginform')->with("success","the account was successfuly created !");
+        return to_route('loginform')->with("success", "The account was successfully created!");
     }
 
     /////// login methods 
@@ -66,10 +71,11 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $artisans = Artisan::all();
+            $professions = $artisans->pluck('profession')->unique();
             if ($user->role === 'admin') {
                 return redirect()->route('Admindashboard')->with("success","Welcome to the main home");
             } else {
-                return view('artisans.index',compact('artisans'));
+                return view('artisans.index',compact('artisans','professions'));
             }
         }
     

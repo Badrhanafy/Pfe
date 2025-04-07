@@ -14,7 +14,7 @@
                     <!-- Profile Header -->
                     <div class="text-center mb-4">
                         <div class="profile-photo-preview mb-4">
-                            <img src="{{ asset('storage/' . ($artisan->photo ?? 'images/worker-placeholder.svg')) }}" 
+                            <img src="{{ asset('storage/' . ($artisan->photo ?? 'images/repair.jpg')) }}" 
                                  class="rounded-circle border border-white border-3" 
                                  style="width: 150px; height: 150px; object-fit: cover;" 
                                  alt="{{ $artisan->name }}">
