@@ -82,4 +82,9 @@ public function findByName($name)
 
     return response()->json($user);
 }
+/////////////////// post creation 
+public function createPost()
+{
+    return view('posts.create');
+}
 }

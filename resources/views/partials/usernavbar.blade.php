@@ -333,7 +333,7 @@
                     <a class="nav-link" href="#">
                         <i class="fas fa-users"></i> Network
                     </a>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('CreatePost') }}">
                         <i class="fas fa-plus-circle"></i> Create Post
                     </a>
                     <a class="nav-link" href="#">
@@ -408,7 +408,7 @@
                 <a href="#" class="mobile-nav-link">
                     <i class="fas fa-users"></i> Network
                 </a>
-                <a href="#" class="mobile-nav-link">
+                <a href="{{ route('CreatePost') }}" class="mobile-nav-link">
                     <i class="fas fa-plus-circle"></i> Create Post
                 </a>
                 <a href="#" class="mobile-nav-link">

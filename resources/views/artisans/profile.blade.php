@@ -3,14 +3,14 @@
 @section('artisanWorld')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-<section class="professional-profile">
+<section class="professional-profile" >
     <!-- Profile Header -->
-    <div class="profile-header">
-        <div class="cover-photo">
+    <div class="profile-header" >
+        <div class="cover-photo"  style="background-color:rgb(155,153,192); border-radius:10px" >
             <div class="profile-badge">Verified Professional</div>
             
         </div>
-        <div class="profile-intro">
+        <div class="profile-intro " >
             <div class="profile-avatar">
                 <img src="{{ $artisan->photo ? asset('storage/' . $artisan->photo) : asset('images/avatar.avif') }}" alt="{{ $artisan->name }}" class="avatar-img">
 
@@ -98,11 +98,12 @@
 .profile-header {
     position: relative;
     margin-bottom: 100px;
+    
 }
 
 .cover-photo {
     height: 250px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    style="background-color:rgb(155,153,192);" 
     border-radius: 15px 15px 0 0;
     position: relative;
 }
@@ -147,7 +148,7 @@
 
 .cover-photo {
     height: 250px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    style="background-color:rgb(155,153,192);" 
     border-radius: 15px 15px 0 0;
     position: relative;
 }

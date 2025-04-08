@@ -20,7 +20,8 @@
               @include('partials.usernavbar')
                   <x-flash-message />
                     @yield('main')
-                   
+                    @viteReactRefresh
+                    @vite(['resources/js/app.jsx'])
              </div>
          
       </main>

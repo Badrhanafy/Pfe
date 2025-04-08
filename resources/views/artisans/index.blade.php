@@ -96,7 +96,7 @@
         
         <!-- Pagination -->
         <div class="d-flex justify-content-center mt-5">
-            {{ $artisans->withQueryString()->links() }}
+           {{--  {{ $artisans->withQueryString()->links() }} --}}
         </div>
     @endif
 </div>

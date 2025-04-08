@@ -81,6 +81,15 @@ Route::get('/artisan/{artisanId}/messages', [ArtisanController::class, 'messages
 // get user details to display more info
 Route::get('/user/{name}', [UserController::class, 'findByName'])->name('user.find');
 
+////////////post part 
+
+Route::get('/PostsIndex', [PostController::class, 'index'])->name('PostsIndex');
+Route::get('/posts/create', [PostController::class, 'create'])->name('CreatePost');
+Route::post('/posts', [PostController::class, 'store'])->name('savePost');
+Route::post('/posts/react', [PostController::class, 'react'])->name('react');
+Route::post('/posts/comment', [PostController::class, 'comment'])->name('SaveComment');
+
+Route::get('/react-posts', fn () => view('reactPosts'));
 
 
 

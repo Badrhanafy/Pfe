@@ -1,55 +1,76 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Post;
-use App\Models\Reaction;
+
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Reaction;
 
 class PostController extends Controller
 {
-     public function create(){
-        return view('posts.create');
-     }
-    public function index(){
-        $posts = Post::all();
-        return view('posts.index',compact("posts"));
+    public function index()
+    {
+        $posts = Post::with('user')->get();
+        return view('posts.index', compact('posts'));
     }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+
     public function store(Request $request)
+{
+    $request->validate([
+        'content' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $post = new Post();
+    $post->user_id = auth()->id();
+    $post->content = $request->content;
+
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();  
+        $request->image->move(public_path('images'), $imageName);
+        $post->image = $imageName;
+    }
+
+    $post->save();
+
+    return redirect()->route('PostsIndex');
+}
+
+    public function react(Request $request)
     {
         $request->validate([
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'post_id' => 'required|exists:posts,id',
+            'type' => 'required|in:like,dislike',
         ]);
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->image->store('public/images');
-        }
-
-        $post = new Post();
-        $post->user_id = auth()->id();
-        $post->content = $request->content;
-        $post->image = $imagePath;
-        $post->save();
-
-        return redirect()->route('posts.index');
-    }
-
-    public function like(Request $request, $postId)
-    {
-        $post = Post::findOrFail($postId);
-        $reaction = Reaction::firstOrNew(['user_id' => auth()->id(), 'post_id' => $postId]);
-        $reaction->type = 'like';
+        $reaction = new Reaction();
+        $reaction->post_id = $request->post_id;
+        $reaction->user_id = auth()->id();
+        $reaction->type = $request->type;
         $reaction->save();
-        return back();
-    }
-    public function dislike(Request $request, $postId)
-    {
-        $post = Post::findOrFail($postId);
-        $reaction = Reaction::firstOrNew(['user_id' => auth()->id(), 'post_id' => $postId]);
-        $reaction->type = 'dislike';
-        $reaction->save();
-        return back();
+
+        return redirect()->back();
     }
 
+    public function comment(Request $request)
+    {
+        $request->validate([
+            'post_id' => 'required|exists:posts,id',
+            'content' => 'required',
+        ]);
+
+        $comment = new Comment();
+        $comment->post_id = $request->post_id;
+        $comment->user_id = auth()->id();
+        $comment->content = $request->content;
+        $comment->save();
+
+        return redirect()->back();
+    }
 }
