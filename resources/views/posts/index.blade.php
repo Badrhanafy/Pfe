@@ -1,27 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>React Working Test</title>
-    <!-- Change how Vite is loaded -->
-   
-   
-</head>
-<body>
-    @viteReactRefresh
-@vite(['resources/js/app.jsx'])
-    <div id="app" style="border: 2px dashed red; padding: 20px;">
-        <!-- This will be replaced by React -->
-        Loading... (If you see this too long, check console)
+<!-- resources/views/posts/index.blade.php -->
+@extends('layouts.master')
+
+@section('main')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Post creation form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="post-form">
+                        @csrf
+                        <div class="form-group">
+                            <textarea class="form-control" name="content" rows="3" placeholder="What's on your mind?"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" name="image" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Posts list -->
+            <div id="posts-container">
+                @foreach($posts as $post)
+                    @include('posts.partials.post', ['post' => $post])
+                @endforeach
+            </div>
+        </div>
     </div>
+</div>
+
+@endsection
+
+@push('scripts')
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+// In your Blade template's script section
+<script>
+    // Initialize Pusher
+    const pusher = new Pusher('{{ config('broadcasting.connections.pusher.key') }}', {
+        cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+        encrypted: true
+    });
+
+    // Subscribe to channels
+    const postsChannel = pusher.subscribe('posts');
     
-    <!-- Add this debug script -->
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded');
-            console.log('Vite preamble exists:', 
-                !!window.__vite_plugin_react_preamble_installed__);
+    // Listen for new posts
+    postsChannel.bind('App\\Events\\NewPostEvent', function(data) {
+        // Prepend new post to the container
+        $('#posts-container').prepend(data.post);
+    });
+
+    // For existing posts, subscribe to their channels
+    @foreach($posts as $post)
+        const postChannel{{ $post->id }} = pusher.subscribe('post.{{ $post->id }}');
+        
+        postChannel{{ $post->id }}.bind('new.comment', function(data) {
+            // Append new comment
+            const commentHtml = `
+                <div class="d-flex mb-2">
+                    <img src="${data.comment.user.profile_photo ? '/storage/' + data.comment.user.profile_photo : '/images/default-profile.png'}" 
+                         class="rounded-circle mr-2" width="30" height="30">
+                    <div>
+                        <strong>${data.comment.user.name}</strong>
+                        <p class="mb-0">${data.comment.content}</p>
+                        <small class="text-muted">Just now</small>
+                    </div>
+                </div>
+            `;
+            $('#post-{{ $post->id }}-comments').append(commentHtml);
         });
-    </script>
-</body>
-</html>
+        
+        postChannel{{ $post->id }}.bind('reaction.updated', function(data) {
+            // Update reaction buttons
+            $('#post-{{ $post->id }} .like-btn').text(`Like (${data.post.like_count})`);
+            $('#post-{{ $post->id }} .dislike-btn').text(`Dislike (${data.post.dislike_count})`);
+        });
+    @endforeach
+</script>
+@endpush

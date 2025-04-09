@@ -82,14 +82,25 @@ Route::get('/artisan/{artisanId}/messages', [ArtisanController::class, 'messages
 Route::get('/user/{name}', [UserController::class, 'findByName'])->name('user.find');
 
 ////////////post part 
-
+/* 
 Route::get('/PostsIndex', [PostController::class, 'index'])->name('PostsIndex');
 Route::get('/posts/create', [PostController::class, 'create'])->name('CreatePost');
 Route::post('/posts', [PostController::class, 'store'])->name('savePost');
 Route::post('/posts/react', [PostController::class, 'react'])->name('react');
 Route::post('/posts/comment', [PostController::class, 'comment'])->name('SaveComment');
 
-Route::get('/react-posts', fn () => view('reactPosts'));
+Route::get('/react-posts', fn () => view('reactPosts')); */
+
+
+
+// routes/web.php
+Route::middleware(['auth'])->group(function() {
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/CreatePost', [PostController::class, 'create'])->name('CreatePost');
+    Route::post('/posts', [PostController::class, 'store'])->name('savePost');
+    Route::post('/posts/{post}/react', [PostController::class, 'react'])->name('posts.react');
+    Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
+});
 
 
 
