@@ -346,6 +346,9 @@
                     
                 </div>
                 @endguest
+                @guest
+                   fuck
+                @endguest
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         const btn = document.getElementById('openModalBtn');
@@ -355,9 +358,9 @@
                         });
                     });
                 </script>
-                @auth
+                
                 <div class="profile-dropdown">
-                    <img src="{{ Auth::user()->progilePhoto ? asset('storage/photos/'.Auth::user()->progilePhoto) : asset('images/avatar-placeholder.png') }}" 
+                    <img src="{{ Auth::guard("artisans")->user()->photo ? asset('storage/'.Auth::guard("artisans")->user()->photo) : asset('images/avatar-placeholder.png') }}" 
                          class="profile-img" 
                          alt="Profile Image">
                     <div class="dropdown-content">
@@ -378,7 +381,7 @@
                         </form>
                     </div>
                 </div>
-                @endauth
+                
             </div>
 
             <!-- Mobile Menu Toggle -->

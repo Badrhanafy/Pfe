@@ -44,7 +44,7 @@ Route::get('/userProfile', [UserController::class, 'profile'])->name('userProfil
 Route::patch('/profile/{id}', [UserController::class, 'update'])->name('profileUpdate');
 //index
 Route::get('/artisans', [ArtisanController::class, 'index'])->name('artisans.index');
-Route::get('/artisans/{id}', [ArtisanController::class, 'showform'])->name('artisans.show');
+Route::get('/artisans/{id}', [ArtisanController::class, 'show'])->name('artisans.show');
 
 
 // //////////////////////Artisans routes 
@@ -101,6 +101,13 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/posts/{post}/react', [PostController::class, 'react'])->name('posts.react');
     Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
 });
+
+
+////////// update artisan profile info
+
+
+    Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
+    Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');
 
 
 

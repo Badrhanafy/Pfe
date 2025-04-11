@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('main')
-        @if(!Auth::check())
+       {{--  @if(!Auth::check())
            <script>window.location.href = "/Userlogin";</script>
-        @endif
+        @endif --}}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <div class="container py-5">
     <div class="row align-items-stretch g-4">

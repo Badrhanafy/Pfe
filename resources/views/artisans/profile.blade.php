@@ -2,404 +2,583 @@
 
 @section('artisanWorld')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<section class="professional-profile" >
-    <!-- Profile Header -->
-    <div class="profile-header" >
-        <div class="cover-photo"  style="background-color:rgb(155,153,192); border-radius:10px" >
-            <div class="profile-badge">Verified Professional</div>
-            
-        </div>
-        <div class="profile-intro " >
-            <div class="profile-avatar">
-                <img src="{{ $artisan->photo ? asset('storage/' . $artisan->photo) : asset('images/avatar.avif') }}" alt="{{ $artisan->name }}" class="avatar-img">
-
-                <span class="online-status"></span>
+<!-- Update Profile Modal -->
+<!-- Update Profile Modal -->
+<!-- Update Profile Modal -->
+<div class="modal fade" id="updateProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header bg-gradient-primary text-white rounded-top">
+                <h4 class="modal-title d-flex align-items-center">
+                    <i class="fas fa-user-edit fa-lg mr-2"></i> Profile Update
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="profile-meta mt-3">
-                <h1 class="profile-name ">{{ $artisan->name }}</h1>
-                <div class="profile-profession " style="position:relative;top:10px">{{ $artisan->profession }}</div>
-                <div class="profile-location">
-                    <i class="fas fa-map-marker-alt"></i>
-                    {{ $artisan->address }}
+            <div class="modal-body p-4">
+                <form action="{{ route('artisan.update', $artisan->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="row g-3">
+                        <!-- Left Column -->
+                        <div class="col-md-6">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-user-tag input-icon"></i>
+                                <input type="text" class="form-control pl-40" name="name" 
+                                       value="{{ $artisan->name }}" placeholder="Full Name" required>
+                                <label class="floating-label">Full Name</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-briefcase input-icon"></i>
+                                <input type="text" class="form-control pl-40" name="profession" 
+                                       value="{{ $artisan->profession }}" placeholder="Profession" required>
+                                <label class="floating-label">Profession</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-map-marker-alt input-icon"></i>
+                                <input type="text" class="form-control pl-40" name="address" 
+                                       value="{{ $artisan->address }}" placeholder="Address" required>
+                                <label class="floating-label">Address</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input type="tel" class="form-control pl-40" name="phone" 
+                                       value="{{ $artisan->phone }}" placeholder="Phone Number" required>
+                                <label class="floating-label">Phone Number</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" class="form-control pl-40" name="email" 
+                                       value="{{ $artisan->email }}" placeholder="Email Address" required>
+                                <label class="floating-label">Email Address</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-chart-line input-icon"></i>
+                                <input type="number" class="form-control pl-40" name="experience_years" 
+                                       value="{{ $artisan->experience_years }}" placeholder="Experience (Years)" required>
+                                <label class="floating-label">Experience (Years)</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-camera input-icon"></i>
+                                <input type="file" class="form-control pl-40" name="photo" 
+                                       placeholder="Profile Photo">
+                                <label class="floating-label">Profile Photo</label>
+                                <small class="form-text text-muted ml-40">
+                                    Current: {{ $artisan->photo ?? 'None' }}
+                                </small>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group magic-input position-relative">
+                                <i class="fas fa-align-left input-icon"></i>
+                                <textarea class="form-control pl-40" name="bio" rows="3" 
+                                          placeholder="Bio">{{ $artisan->bio }}</textarea>
+                                <label class="floating-label">Bio</label>
+                                <span class="input-border"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="button" class="btn btn-outline-secondary mr-3" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn magic-btn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Profile Section -->
+<section class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="cover-photo rounded-top magic-gradient">
+            <button class="btn btn-outline-light btn-sm float-end m-3" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+        </div>
+        
+        <!-- Profile Intro -->
+        <div class="profile-intro text-center magic-avatar">
+            <div class="avatar-container">
+                <img src="{{ $artisan->photo ? asset('storage/' . $artisan->photo) : asset('images/avatar.avif') }}" 
+                     alt="{{ $artisan->name }}" class="avatar-img rounded-circle magic-hover">
+                <span class="status-indicator bg-success magic-pulse"></span>
+            </div>
+            
+            <div class="profile-meta mt-4">
+                <h1 class="name">{{ $artisan->name }}</h1>
+                <div class="profession text-primary">{{ $artisan->profession }}</div>
+                <div class="location mt-2">
+                    <i class="fas fa-map-marker-alt magic-shake"></i> {{ $artisan->address }}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="profile-content">
-        <!-- Left Column -->
-        <div class="profile-sidebar">
-            <div class="profile-widget">
-                <h3 class="widget-title">Professional Summary</h3>
-                <a href="{{ route('Messagebox', $artisan->id) }}" class="bg-danger">View Messages</a>
-                <ul class="stats-list">
-                    <li>
-                        <i class="fas fa-briefcase"></i>
-                        <span>{{ $artisan->experience_years }}+ years experience</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>{{ $artisan->completed_projects ?? '0' }} projects completed</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="profile-widget">
-                <h3 class="widget-title">Contact Information</h3>
-                <ul class="contact-list">
-                    <li>
-                        <i class="fas fa-phone"></i>
-                        <a href="tel:{{ $artisan->phone }}">{{ $artisan->phone }}</a>
-                    </li>
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:{{ $artisan->email }}">{{ $artisan->email }}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Right Column -->
-        <div class="profile-main">
-            <!-- About Section -->
-            <section class="profile-section">
-                <h2 class="section-title"><i class="fas fa-user-tie"></i> About Me</h2>
-                <p class="profile-bio">{{ $artisan->bio ?? "no bio " }}</p>
-            </section>
-
-            <!-- Experience Section -->
-            <section class="profile-section">
-                <h2 class="section-title"><i class="fas fa-chart-line"></i> Professional Experience</h2>
-                <div class="experience-details">
-                    <div class="experience-item">
-                        <h4>Years of Experience</h4>
-                        <div class="experience-value">{{ $artisan->experience_years }} Years</div>
-                    </div>
-                    <div class="experience-item">
-                        <h4>Specialization</h4>
-                        <div class="experience-value">{{ $artisan->profession }}</div>
+    <!-- Profile Content -->
+    <div class="profile-body mt-5">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-4">
+                <!-- Professional Summary -->
+                <div class="card mb-4 magic-widget">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">
+                            <i class="fas fa-briefcase"></i> Professional Summary
+                        </h5>
+                        <div class="d-flex justify-content-between mt-3">
+                            <div>
+                                <h4 class="mb-0">{{ $artisan->experience_years }}+</h4>
+                                <small>Years Experience</small>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">{{ $artisan->completed_projects ?? 0 }}</h4>
+                                <small>Projects Completed</small>
+                            </div>
+                        </div>
+                        <a href="{{ route('Messagebox', $artisan->id) }}" class="btn btn-danger btn-block mt-4 magic-btn-sm">
+                            <i class="fas fa-envelope"></i> View Messages
+                        </a>
                     </div>
                 </div>
-            </section>
+
+                <!-- Contact Information -->
+                <div class="card mb-4 magic-contact">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">
+                            <i class="fas fa-address-book"></i> Contact Information
+                        </h5>
+                        <ul class="list-unstyled mt-3 magic-icons">
+                            <li class="mb-2">
+                                <i class="fas fa-phone mr-2 magic-swing"></i>
+                                <a href="tel:{{ $artisan->phone }}">{{ $artisan->phone }}</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope mr-2 magic-float"></i>
+                                <a href="mailto:{{ $artisan->email }}">{{ $artisan->email }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-8">
+                <!-- About Section -->
+                <div class="card mb-4 magic-fade">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">
+                            <i class="fas fa-user-alt"></i> About Me
+                        </h5>
+                        <p class="card-text mt-3">{{ $artisan->bio ?? 'No bio available' }}</p>
+                    </div>
+                </div>
+
+                <!-- Experience Section -->
+                <div class="card magic-counter">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">
+                            <i class="fas fa-chart-line"></i> Professional Experience
+                        </h5>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="experience-card p-3 magic-card">
+                                    <h4 class="mb-0">{{ $artisan->experience_years }}+</h4>
+                                    <small class="text-muted">Years of Experience</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="experience-card p-3 magic-card">
+                                    <h4 class="mb-0">{{ $artisan->profession }}</h4>
+                                    <small class="text-muted">Specialization</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
 <style>
-/* Keep all previous CSS styles except skills-related styles */
-.professional-profile {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.profile-header {
-    position: relative;
-    margin-bottom: 100px;
-    
-}
-
-.cover-photo {
-    height: 250px;
-    style="background-color:rgb(155,153,192);" 
-    border-radius: 15px 15px 0 0;
-    position: relative;
-}
-
-/* Remove skills-grid and skill-card styles */
-.experience-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.experience-item {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.experience-item h4 {
-    color: #6b7280;
-    margin-bottom: 10px;
-    font-size: 1rem;
-}
-
-.experience-value {
-    font-size: 1.5rem;
-    color: #1f2937;
-    font-weight: 600;
-}.professional-profile {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Profile Header */
-.profile-header {
-    position: relative;
-    margin-bottom: 100px;
-}
-
-.cover-photo {
-    height: 250px;
-    style="background-color:rgb(155,153,192);" 
-    border-radius: 15px 15px 0 0;
-    position: relative;
-}
-
-.profile-badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: #fff;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-weight: 600;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-}
-
-.profile-intro {
-    position: absolute;
-    bottom: -75px;
-    left: 50px;
-    right: 50px;
-    display: flex;
-    align-items: flex-end;
-    gap: 30px;
-}
-
-.profile-avatar {
-    position: relative;
-    width: 150px;
-}
-
-.avatar-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 5px solid white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.online-status {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #10b981;
-    border: 3px solid white;
-}
-
-.profile-meta {
-    margin-bottom: 20px;
-}
-
-.profile-name {
-    font-size: 2.5rem;
-    margin-bottom: 5px;
-    color: #1f2937;
-}
-
-.profile-profession {
-    font-size: 1.2rem;
-    color: #6b7280;
-    margin-bottom: 10px;
-}
-
-.profile-location {
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Profile Content Layout */
-.profile-content {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 30px;
-    padding: 0 50px;
-}
-
-/* Sidebar Styles */
-.profile-widget {
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.widget-title {
-    font-size: 1.1rem;
-    color: #1f2937;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f3f4f6;
-}
-
-.rating {
-    margin-bottom: 20px;
-}
-
-.stars {
-    --percent: calc(var(--rating) / 5 * 100%);
-    display: inline-block;
-    font-size: 1.2rem;
-    position: relative;
-}
-
-.stars::before {
-    content: '★★★★★';
-    color: #e5e7eb;
-}
-
-.stars::after {
-    content: '★★★★★';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: var(--percent);
-    overflow: hidden;
-    color: #f59e0b;
-}
-
-.stats-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid #f3f4f6;
-}
-
-/* Skills Grid */
-.skills-grid {
-    display: grid;
-    gap: 15px;
-}
-
-.skill-card {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    background: white;
-    border-radius: 10px;
-    transition: transform 0.2s ease;
-}
-
-.skill-card:hover {
-    transform: translateY(-3px);
-}
-
-.skill-icon {
-    width: 40px;
-    height: 40px;
-    background: #6366f1;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    margin-right: 15px;
-}
-
-.skill-experience {
-    width: 100%;
-    position: relative;
-    height: 5px;
-    background: #f3f4f6;
-    border-radius: 3px;
-    margin-top: 8px;
-}
-
-.experience-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background: #6366f1;
-    border-radius: 3px;
-}
-
-/* Portfolio Grid */
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.portfolio-item {
-    position: relative;
-    border-radius: 10px;
-    overflow: hidden;
-    aspect-ratio: 1/1;
-}
-
-.portfolio-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.portfolio-overlay {
-    position: absolute;
-    bottom: -100%;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.7);
-    color: white;
-    padding: 20px;
-    transition: bottom 0.3s ease;
-}
-
-.portfolio-item:hover .portfolio-overlay {
-    bottom: 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .profile-content {
-        grid-template-columns: 1fr;
-        padding: 0 20px;
+    /* Professional Base Styles */
+    .profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
     }
     
-    .profile-intro {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        left: 20px;
-        right: 20px;
+    .cover-photo {
+        height: 250px;
+        background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+        position: relative;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .avatar-container {
+        position: relative;
+        margin-top: -75px;
     }
     
     .avatar-img {
-        width: 120px;
-        height: 120px;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
+    
+    .status-indicator {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 3px solid white;
+    }
+    
+    .profile-meta .name {
+        font-size: 2.2rem;
+        color: #1a202c;
+    }
+    
+    .profession {
+        font-size: 1.2rem;
+        color: #3182ce;
+    }
+    
+    .location {
+        color: #4a5568;
+        font-size: 0.9rem;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .experience-card {
+        border-left: 4px solid #3182ce;
+        transition: transform 0.2s ease;
+    }
+    
+   
+    
+    /* Magical Enhancements */
+    .magic-gradient {
+        animation: gradientAnimation 15s ease infinite;
+    }
+    
+    .magic-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .magic-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    .magic-input {
+        position: relative;
+    }
+    
+    .magic-input .form-control {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #ddd;
+        border-radius: 0;
+        padding: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .magic-input .input-border {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, #6366f1, #10b981);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+    
+    .magic-input .form-control:focus ~ .input-border {
+        transform: scaleX(1);
+    }
+    
+    .magic-btn {
+        background: linear-gradient(45deg, #6366f1, #10b981);
+        padding: 12px 30px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+    
+    .magic-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .magic-btn-sm {
+        padding: 8px 20px;
+        border-radius: 20px;
+        margin: 15px 0;
+    }
+    
+    .magic-widget:hover {
+        transform: perspective(1000px) rotateY(10deg);
+        transition: transform 0.5s ease;
+    }
+    
+    .magic-contact i {
+        transition: transform 0.3s ease;
+    }
+    
+    .magic-contact li:hover i {
+        transform: rotate(20deg);
+    }
+    
+    .magic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .magic-fade {
+        opacity: 0;
+        animation: fadeIn 1s ease forwards;
+    }
+    
+    .magic-shake {
+        animation: shake 0.5s ease infinite;
+    }
+    
+    /* Animations */
+    @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(0.95); opacity: 0.8; }
+        50% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-3px); }
+        50% { transform: translateX(3px); }
+        75% { transform: translateX(-3px); }
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .cover-photo {
+            height: 150px;
+        }
+        
+        .avatar-img {
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+        }
+        
+        .profile-meta .name {
+            font-size: 1.8rem;
+        }
+        
+        .magic-contact li:hover i {
+            transform: none;
+        }
+        
+        .magic-widget:hover {
+            transform: none;
+        }
+    }
+   /* Modal Form Enhancements */
+.modal-lg {
+    max-width: 900px !important;
 }
 
-/* Keep other existing styles */
-</style>
+.modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: none;
+    padding: 1.5rem 2rem;
+}
+
+.modal-body {
+    max-height: 80vh;
+}
+
+.magic-input {
+    margin-bottom: 1.5rem;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    color: #6366f1;
+    transition: color 0.3s ease;
+}
+
+.pl-40 {
+    padding-left: 40px !important;
+}
+
+.floating-label {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: #6c757d;
+}
+
+.magic-input .form-control:focus ~ .floating-label,
+.magic-input .form-control:not(:placeholder-shown) ~ .floating-label {
+    transform: translateY(-125%);
+    font-size: 0.8rem;
+    color: #6366f1;
+}
+
+.magic-input .form-control {
+    border: none;
+    border-bottom: 2px solid #ddd;
+    border-radius: 0;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.magic-input .input-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #10b981);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.magic-input .form-control:focus ~ .input-border {
+    transform: scaleX(1);
+}
+
+.form-control-file {
+    padding-left: 40px !important;
+}
+
+.form-text.ml-40 {
+    margin-left: 40px !important;
+}
+
+.btn.magic-btn {
+    background: linear-gradient(45deg, #6366f1, #10b981);
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn.magic-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+    </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Portfolio Hover Effect (if keeping portfolio)
-    document.querySelectorAll('.portfolio-item').forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.querySelector('.portfolio-overlay').style.bottom = '0';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.querySelector('.portfolio-overlay').style.bottom = '-100%';
-        });
+    // Modal enhancements
+    $('#updateProfileModal').on('show.bs.modal', function () {
+        $(this).find('.modal-content').css('transform', 'scale(1)');
     });
-});
-</script>
+    
+    $('#updateProfileModal').on('hidden.bs.modal', function () {
+        $(this).find('.modal-content').css('transform', 'scale(0.9)');
+    });
+    
+    // Number counter animation
+    document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.experience-value[data-count]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const count = parseInt(target.getAttribute('data-count'));
+                    const step = Math.ceil(count / 20);
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current > count) {
+                            target.textContent = count + '+';
+                            clearInterval(timer);
+                        } else {
+                            target.textContent = current;
+                        }
+                    }, 50);
+                    observer.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        counters.forEach(counter => observer.observe(counter));
+    });
+    </script>
 @endsection

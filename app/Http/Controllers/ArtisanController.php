@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-
+use App\Notifications\NewUserMessageNotification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 class ArtisanController extends Controller
 {
@@ -129,7 +130,9 @@ public function sendMessage(Request $request)
         'receiver_id' => $request->artisan_id,
         'message' => $request->message,
     ]);
-
+    
+    $artisan = Artisan::fin($request->artisan_id);
+    $artisan->notify(new NewUserMessageNotification($message));
     return redirect()->back()->with('success', 'Message sent successfully!');
 }
 ////// profile details
@@ -196,6 +199,7 @@ public function filterArtisans(Request $request)
         ];
         if(Auth::guard('artisans')->attempt($credentials)){
             $artisan = Artisan::where('email', $req->email)->first();
+            Auth::guard("artisans")->login($artisan);
             return redirect("artisans/$artisan->id");
           // return redirect('artisans/'.$artisan["id"].'/details');
         }
@@ -203,6 +207,39 @@ public function filterArtisans(Request $request)
             return  back()->withErrors(['email' => 'Invalid credentials']);
         }
     }
+    /////////// to update the ifo of profile 
+
+    public function update(Request $request, Artisan $artisan)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'profession' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|unique:artisans,email,'.$artisan->id,
+            'bio' => 'nullable|string',
+            'experience_years' => 'required|integer|min:0',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle photo upload
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($artisan->photo) {
+                Storage::delete('public/' . $artisan->photo);
+            }
+
+            $photoPath = $request->file('photo')->store('artisan_photos', 'public');
+            $validated['photo'] = $photoPath;
+        }
+
+        // Update the artisan
+        $artisan->update($validated);
+
+        return redirect()->route('artisan.show', $artisan)
+            ->with('success', 'Profile updated successfully!');
+    }
+
 
 }
     
