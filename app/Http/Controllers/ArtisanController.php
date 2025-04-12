@@ -236,8 +236,8 @@ public function filterArtisans(Request $request)
         // Update the artisan
         $artisan->update($validated);
 
-        return redirect()->route('artisan.show', $artisan)
-            ->with('success', 'Profile updated successfully!');
+        //return redirect()->route('artisan.show', $artisan)->with('success', 'Profile updated successfully!');
+        return back()->with('success', 'Profile updated successfully!');
     }
 
 

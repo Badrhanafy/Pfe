@@ -242,7 +242,7 @@
     
     .cover-photo {
         height: 250px;
-        background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+        background: rgb(178,177,206);
         position: relative;
         border-radius: 15px 15px 0 0;
     }
@@ -256,7 +256,7 @@
         width: 150px;
         height: 150px;
         object-fit: cover;
-        border: 5px solid white;
+        border: 5px solid rgb(152, 160, 236);
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
     
