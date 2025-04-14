@@ -330,7 +330,7 @@
                     <a class="nav-link" href="{{ route('artisans.index') }}">
                         <i class="fas fa-home"></i> Home
                     </a>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('posts.index') }}">
                         <i class="fas fa-users"></i> Network
                     </a>
                     <a class="nav-link" href="{{ route('CreatePost') }}">

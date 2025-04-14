@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ReactionController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
@@ -109,6 +111,22 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
     Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');
 
-
+////////// Posts Part 
+Route::middleware(['auth'])->group(function () {
+    // Posts
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    
+    // Comments
+    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    
+    // Reactions
+    Route::post('/posts/{post}/reactions', [ReactionController::class, 'store'])->name('reactions.store');
+    Route::delete('/posts/{post}/reactions', [ReactionController::class, 'destroy'])->name('reactions.destroy');
+});
 
 
