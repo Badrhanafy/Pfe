@@ -4,10 +4,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Community Posts</h1>
+        <a href="{{ route('userPosts') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
+            My Posts
+        </a>
         <a href="{{ route('posts.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
             Create Post
         </a>
     </div>
+    
 
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">

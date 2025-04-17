@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -87,4 +89,12 @@ public function createPost()
 {
     return view('posts.create');
 }
+public function UserPosts(){
+    
+    $user = User::find(Auth::id());
+    $Userposts = $user->posts;
+    return view('user.myPosts', compact('Userposts'));
+
 }
+}
+

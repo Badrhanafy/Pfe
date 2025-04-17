@@ -103,7 +103,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/posts/{post}/react', [PostController::class, 'react'])->name('posts.react');
     Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
 });
-
+Route::get('/myPosts', [UserController::class, 'UserPosts'])->name("userPosts");
 
 ////////// update artisan profile info
 
