@@ -226,6 +226,7 @@
             </div>
         </div>
     </div>
+   
 </section>
 
 <!-- Bootstrap JS and dependencies -->

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Notifications\NewUserMessageNotification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ArtisanCreated;
 class ArtisanController extends Controller
 {
     public function showSignUpForm(){
@@ -49,6 +50,8 @@ class ArtisanController extends Controller
             'experience_years' => $request->experience_years,
         ]);
          $id = $artisan['id'];
+         // Send notification directly to artisan
+         $artisan->notify(new ArtisanCreated());
         return view('artisans.profile',compact('id','artisan'))->with('success', 'Artisan created successfully');
     }
     //////// home

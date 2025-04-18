@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use App\Models\Reactions;
-use App\Models\Posts;
+use App\Models\Post;
 use App\Models\Comments;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,7 +33,7 @@ class User extends Authenticatable
     // A user can create many posts
     public function posts()
     {
-        return $this->hasMany(Posts::class);
+        return $this->hasMany(Post::class);
     }
      // A user can create many comments
      public function comments()

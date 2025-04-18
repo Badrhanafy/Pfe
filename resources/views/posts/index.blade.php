@@ -4,10 +4,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Community Posts</h1>
+        <a href="{{ route('userPosts') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
+            My Posts
+        </a>
         <a href="{{ route('posts.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
             Create Post
         </a>
     </div>
+    
 
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
@@ -42,8 +46,9 @@
                     </div>
 
                     <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <img src="{{ $post->user->progilePhoto ? asset('/storage/images' . $post->user->progilePhoto) : asset('images/default-avatar.png') }}" 
-                             alt="{{ $post->user->name }}" class="w-8 h-8 rounded-full mr-2">
+                        <img src="{{ $post->user->progilePhoto ? asset('storage/photos/'. $post->user->progilePhoto) : asset('images/default-avatar.png') }}" 
+                        alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full">
+                             
                         <span>{{ $post->user->name }}</span>
                         <span class="mx-2">•</span>
                         <span>{{ $post->created_at->diffForHumans() }}</span>
@@ -97,8 +102,8 @@
                         <div class="space-y-3">
                             @foreach($post->comments->take(2) as $comment)
                                 <div class="flex space-x-2">
-                                    <img src="{{ $comment->user->profilePhoto ? asset('storage/' . $comment->user->profilePhoto) : asset('images/default-avatar.png') }}" 
-                                         alt="{{ $comment->user->name }}" class="w-8 h-8 rounded-full">
+                                    <img src="{{ $comment->user->progilePhoto ? asset('storage/photos/'. $comment->user->progilePhoto) : asset('images/default-avatar.png') }}" 
+                                       alt="{{ $comment->user->name }}" class="w-10 h-10 rounded-full">
                                     <div class="flex-1 bg-gray-50 rounded-lg p-3">
                                         <div class="flex justify-between items-center">
                                             <span class="font-medium text-gray-800">{{ $comment->user->name }}</span>

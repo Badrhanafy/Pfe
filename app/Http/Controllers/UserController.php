@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Notifications\MessageSent;
+use App\Models\Artisan;
 
 class UserController extends Controller
 {
@@ -19,11 +23,17 @@ class UserController extends Controller
         ]);
 
         // Create a new message
-        Message::create([
+       $message =  Message::create([
             'sender_id' => auth()->id(),
             'receiver_id' => $request->artisan_id,
             'message' => $request->message,
         ]);
+        /// notify artisn
+        $artisan = Artisan::find($request->artisan_id);
+        
+        $senderName = User::find(auth()->id())->name;
+        //dd($senderName);
+         $artisan->notify(new MessageSent($senderName));
 
         // Redirect back with a success message
         return back()->with('success', 'Message sent successfully!');
@@ -87,4 +97,12 @@ public function createPost()
 {
     return view('posts.create');
 }
+public function UserPosts(){
+    
+    $user = User::find(Auth::id());
+    $Userposts = $user->posts;
+    return view('user.myPosts', compact('Userposts'));
+
 }
+}
+
