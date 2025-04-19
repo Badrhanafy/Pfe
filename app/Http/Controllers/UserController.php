@@ -81,7 +81,7 @@ class UserController extends Controller
   $dataToUpdate = [
     'name' => $request->name,
     'email' => $request->email,
-    'is_blocked' => (int) $request->input('statut'),
+    'is_blocked' => (int) $request->input('is_blocked'),
 ];
 
 // Zayd les champs ila kaynin
@@ -99,6 +99,9 @@ if ($request->filled('date_of_birth')) {
 
 if ($request->filled('password')) {
     $dataToUpdate['password'] = Hash::make($request->password);
+}
+if ($request->filled('role')) {
+    $dataToUpdate['role'] = $request->role;
 }
 
 $user->update($dataToUpdate);

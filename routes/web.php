@@ -135,9 +135,12 @@ Route::get('/myPosts', [UserController::class, 'UserPosts'])->name("userPosts");
 
 /////////////////Admin Operations
 
-Route::get("AllUsers", [OperationsController::class, "users"])->name("users");
-Route::get("/Posts",[OperationsController::class,"Posts"])->name("AllPosts");
+Route::get("Admin/AllUsers", [OperationsController::class, "users"])->name("users");
+Route::get("/Admin/Posts",[OperationsController::class,"Posts"])->name("AllPosts");
+Route::get("/Admin/Artisans",[OperationsController::class,"Artisans"])->name("Artisans");
 Route::delete('/users/{id}', [OperationsController::class, 'destdeleteUserroy'])->name('User.destroy');
+// routes/web.php
+Route::delete('/admin/posts/{post}', [OperationsController::class, 'deletePost'])->name('removePost');
 
 ///// mochkil dyal routes mn hadou hhh
 Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');

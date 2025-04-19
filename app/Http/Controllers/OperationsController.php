@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Artisan;
 class OperationsController extends Controller
 {
     public function Users(){
         $users =User::all();
         return view('adminpart.users.usersliste',compact('users'));
     }
-    public function Posts(){
-        $posts = Post::all();
-        return view("adminpart.posts.index");
-    }
+    // public function Posts(){
+    //     $posts = Post::all();
+    //     return view("adminpart.posts.index");
+    // }
 //     public function blockUser($id)
 // {
 //     $user = User::findOrFail($id);
@@ -36,6 +37,24 @@ public function deleteUser($id)
     $user->delete();
 
     return back()->with('success', 'User deleted successfully!');
+}
+public function Artisans(){
+    $artisans = Artisan::all();
+    return view("adminpart.artisans.index",compact('artisans'));
+}
+public function posts()
+{
+    $posts = Post::withCount(['comments', 'likes'])
+                ->with(['user'])
+                ->latest()
+                ->get();
+
+    return view('adminpart.posts.index', compact('posts'));
+}
+public function deletePost($id){
+    $post = Post::find($id);
+    $post->delete();
+    return back()->with('success', 'Post deleted successfully.');
 }
 
 }

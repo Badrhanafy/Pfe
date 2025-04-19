@@ -12,47 +12,76 @@
     </button>
 
     <!-- Sidebar -->
-    <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purple-400 text-gray-900 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-        <div class="flex items-center justify-center h-16 bg-indigo-400">
-            <span class="text-xl font-bold tracking-tight">Admin Panel</span>
-        </div>
+<aside
+class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purple-400 text-gray-900 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col h-screen">
+<!-- Header -->
+<div class="flex-shrink-0 flex items-center justify-center h-16 bg-indigo-400">
+    <span class="text-xl font-bold tracking-tight">Admin Panel</span>
+</div>
+
+<!-- Scrollable Navigation -->
+<nav class="flex-1 overflow-y-auto">
+    <ul class="space-y-2 p-4">
+        <li>
+            <a href="{{ route('Admindashboard') }}"
+                class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('users') }}"
+                class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                <i class="fa-solid fa-users-gear mr-3"></i> Manage Users
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('AllPosts') }}"
+                class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                <i class="fa-solid fa-briefcase mr-3"></i>Manage Artisans
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('AllPosts') }}"
+                class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                <i class="fa-solid fa-image mr-3"></i> Manage Posts
+            </a>
+        </li>
         
-        <nav class="flex-grow p-4 overflow-y-auto">
-            <ul class="space-y-2">
-                <li>
-                    <a href="#" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
-                        <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('users') }}" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
-                        <i class="fa-solid fa-users-gear mr-3"></i> Manage Users
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('AllPosts') }}" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
-                        <i class="fa-solid fa-image mr-3"></i> Manage Posts
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
-                        <i class="fa-solid fa-comment mr-3"></i> Manage Comments
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    
-        <!-- User Profile Footer -->
-        <div class="p-4 border-t border-indigo-300 bg-indigo-100 fixed bottom-0 w-64">
-            <div class="flex items-center space-x-3">
-                <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random" alt="">
-                <div>
-                    <p class="text-sm font-medium truncate">{{ Auth::user()->email }}</p>
-                    <p class="text-xs text-gray-600">Admin</p>
-                </div>
+        <!-- Add more list items as needed -->
+    </ul>
+</nav>
+
+<!-- Fixed Footer -->
+<div class="flex-shrink-0 p-4 border-t border-indigo-300 bg-indigo-100">
+    <div class="flex items-center justify-between relative group">
+        <!-- Profile Section -->
+        <div class="flex items-center space-x-3">
+            <img class="h-12 w-12 rounded-full border-2 border-indigo-500"
+                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random"
+                alt="User Avatar">
+            <div>
+                <p class="text-sm font-semibold text-indigo-800 truncate">{{ Auth::user()->email }}</p>
+                <p class="text-xs text-gray-500">Admin</p>
             </div>
         </div>
-    </aside>
+
+        <!-- Animated Logout Button -->
+        <form action="{{ route('logout') }}" method="post" 
+            class="opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+            @csrf
+            <button type="submit"
+                    class="p-2 bg-red-500 hover:bg-red-600 rounded-full shadow-lg text-white transition-all duration-300 transform hover:scale-110 relative group/button">
+                <i class="fas fa-sign-out-alt text-sm"></i>
+                <!-- Tooltip -->
+                <span class="absolute -top-8 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover/button:opacity-100 transition-opacity duration-300
+                            after:content-[''] after:absolute after:top-full after:right-2 after:border-4 after:border-transparent after:border-t-gray-800">
+                    Logout
+                </span>
+            </button>
+        </form>
+    </div>
+</div>
+</aside>
     
 
     <!-- Main Content -->
