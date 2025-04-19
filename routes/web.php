@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OperationsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\ReviewController;
@@ -96,23 +97,22 @@ Route::get('/react-posts', fn () => view('reactPosts')); */
 
 
 // routes/web.php
-Route::middleware(['auth'])->group(function() {
+//Route::middleware(['auth'])->group(function() {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/CreatePost', [PostController::class, 'create'])->name('CreatePost');
     Route::post('/posts', [PostController::class, 'store'])->name('savePost');
     Route::post('/posts/{post}/react', [PostController::class, 'react'])->name('posts.react');
     Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
-});
+//});
 Route::get('/myPosts', [UserController::class, 'UserPosts'])->name("userPosts");
 
 ////////// update artisan profile info
 
 
-    Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
-    Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');
+    
 
 ////////// Posts Part 
-Route::middleware(['auth'])->group(function () {
+//Route::middleware(['auth'])->group(function () {
     // Posts
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
@@ -127,7 +127,20 @@ Route::middleware(['auth'])->group(function () {
     // Reactions
     Route::post('/posts/{post}/reactions', [ReactionController::class, 'store'])->name('reactions.store');
     Route::delete('/posts/{post}/reactions', [ReactionController::class, 'destroy'])->name('reactions.destroy');
-});
+//});
 
+
+
+
+
+/////////////////Admin Operations
+
+Route::get("AllUsers", [OperationsController::class, "users"])->name("users");
+Route::get("/Posts",[OperationsController::class,"Posts"])->name("AllPosts");
+Route::delete('/users/{id}', [OperationsController::class, 'destdeleteUserroy'])->name('User.destroy');
+
+///// mochkil dyal routes mn hadou hhh
+Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
+Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');
 
 

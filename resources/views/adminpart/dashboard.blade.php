@@ -12,38 +12,53 @@
     </button>
 
     <!-- Sidebar -->
-    <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-800 to-purple-900 text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-        <div class="flex items-center justify-center h-16 bg-indigo-900">
+    <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purple-400 text-gray-900 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+        <div class="flex items-center justify-center h-16 bg-indigo-400">
             <span class="text-xl font-bold tracking-tight">Admin Panel</span>
         </div>
         
         <nav class="flex-grow p-4 overflow-y-auto">
             <ul class="space-y-2">
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 bg-indigo-700 rounded-lg transition-colors">
+                    <a href="#" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
                         <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
                     </a>
                 </li>
-                <!-- Other menu items remain the same -->
+                <li>
+                    <a href="{{ route('users') }}" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                        <i class="fa-solid fa-users-gear mr-3"></i> Manage Users
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('AllPosts') }}" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                        <i class="fa-solid fa-image mr-3"></i> Manage Posts
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                        <i class="fa-solid fa-comment mr-3"></i> Manage Comments
+                    </a>
+                </li>
             </ul>
         </nav>
-
+    
         <!-- User Profile Footer -->
-        <div class="p-4 border-t border-indigo-700">
+        <div class="p-4 border-t border-indigo-300 bg-indigo-100 fixed bottom-0 w-64">
             <div class="flex items-center space-x-3">
                 <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random" alt="">
                 <div>
-                    <p class="text-sm font-medium truncate">{{ Auth::user()->name }}</p>
-                    <p class="text-xs text-indigo-200">Admin</p>
+                    <p class="text-sm font-medium truncate">{{ Auth::user()->email }}</p>
+                    <p class="text-xs text-gray-600">Admin</p>
                 </div>
             </div>
         </div>
     </aside>
+    
 
     <!-- Main Content -->
     <main class="md:ml-64 transition-all duration-300">
         <!-- Top Navigation -->
-        <header class="bg-white shadow-sm">
+        <header class="bg-white shadow-sm  sticky top-0" style="background-position: stiky">
             <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1 max-w-xs">
@@ -55,16 +70,12 @@
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <button class="p-2 text-gray-500 hover:text-indigo-600 relative">
-                            <i class="fas fa-bell"></i>
-                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
                         
                         <div class="flex items-center gap-2">
-                            <img class="h-8 w-8 rounded-full" 
-                                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random" 
+                            <img class="h-12 w-42" 
+                                 src="http://127.0.0.1:8000/images/logo.png" 
                                  alt="User avatar">
-                            <span class="text-sm font-medium text-gray-700">{{ Auth::user()->name }}</span>
+                            
                         </div>
                     </div>
                 </div>
@@ -117,7 +128,7 @@
             </div>
              
             <!-- Enhanced Chart Section -->
-            <div class="bg-white p-6 rounded-xl shadow-sm mb-8 " style="height:100vh">
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-8 " style="">
                 <h2 class="text-bold text-2xl text-indigo-600">Growth </h2>
                 <div style="width: 80%; margin: auto;">
                     <h2 style="text-align: center;">User Growth (Jan - Dec)</h2>

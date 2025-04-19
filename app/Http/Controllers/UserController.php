@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Notifications\MessageSent;
 use App\Models\Artisan;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index(){
@@ -47,7 +47,7 @@ class UserController extends Controller
     $user = User::findOrFail($id);
      //dd($user);
     // Validate the request data
-    $request->validate([
+    $form = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         'phone' => 'nullable|string|max:20',
@@ -56,8 +56,13 @@ class UserController extends Controller
         'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3000',
         'gender' => 'string|in:male,female,other,prefer_not_to_say',
         'date_of_birth' => 'date',
+        'role' => 'string|in:user,admin,',
+       // 'statut' => 'required|in:0,1',
+        
     ]);
 
+    
+    //dd($request->all());
     // Handle file upload if a file is provided
     if ($request->hasFile('profile_photo')) {
         // Delete the old profile photo if it exists
@@ -72,17 +77,33 @@ class UserController extends Controller
         $user->progilePhoto = $fileName;
     }
 
-    // Update user information
-    $user->update([
-        'name' => $request->name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'address' => $request->address,
-        'bio' => $request->bio,
-        'date_of_birth' => $request->date_of_birth,
-        'gender' => $request->gender,
-        
-    ]);
+  // Update user information
+  $dataToUpdate = [
+    'name' => $request->name,
+    'email' => $request->email,
+    'is_blocked' => (int) $request->input('statut'),
+];
+
+// Zayd les champs ila kaynin
+if ($request->filled('phone')) {
+    $dataToUpdate['phone'] = $request->phone;
+}
+
+if ($request->filled('gender')) {
+    $dataToUpdate['gender'] = $request->gender;
+}
+
+if ($request->filled('date_of_birth')) {
+    $dataToUpdate['date_of_birth'] = $request->date_of_birth;
+}
+
+if ($request->filled('password')) {
+    $dataToUpdate['password'] = Hash::make($request->password);
+}
+
+$user->update($dataToUpdate);
+
+   // dd($user->is_blocked);
 
     return back()->with('success', 'Profile updated successfully!');
 }

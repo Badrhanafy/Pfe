@@ -74,14 +74,24 @@ class LoginController extends Controller
         ]);
     
         if (Auth::attempt($credentials)) {
+
             $user = Auth::user();
+           // dd($user->is_blocked);
+            
+           if ($user->is_blocked) {
+            Auth::logout(); 
+            return back()->withErrors(['email' => 'Your Account is blocked !']);
+        }
+        
             $artisans = Artisan::all();
             $professions = $artisans->pluck('profession')->unique();
+        
             if ($user->role === 'admin') {
                 $users = User::all();
                 $posts = Post::all();
                 $Comments = Comment::all();
                 $recentPosts = $this->getRecentPosts(5);
+                
                 $months = [
                     'January', 'February', 'March', 'April', 'May', 'June',
                     'July', 'August', 'September', 'October', 'November', 'December'
@@ -92,27 +102,32 @@ class LoginController extends Controller
                     ->groupByRaw("MONTH(created_at)")
                     ->pluck('total', 'month_number');
         
-                // build array of 12 months with 0 where no data
                 $data = [];
                 foreach (range(1, 12) as $i) {
                     $data[] = $growthData->get($i, 0);
                 }
+        
                 $labels = $months;
-                return view("adminpart.dashboard",[
-                    "users"=>$users,
-                    "comments"=>$Comments,
-                    "posts"=>$posts,
-                    "recentPosts"=>$recentPosts,
-                    "labels"=>$labels,
-                    "data"=>$data,
-                    //"users"=>$users,
-                ])->with("success","Welcome to the main home");
+        
+                return view("adminpart.dashboard", [
+                    "users" => $users,
+                    "comments" => $Comments,
+                    "posts" => $posts,
+                    "recentPosts" => $recentPosts,
+                    "labels" => $labels,
+                    "data" => $data,
+                ])->with("success", "Welcome to the main home");
             } else {
-                return view('artisans.index',compact('artisans','professions'));
+                return view('artisans.index', compact('artisans', 'professions'));
             }
         }
+        else{
+            return back()->withErrors(['email' => 'Invalid credentials']);
+        }
+        
+
     
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        
     }
     protected function getRecentPosts($limit = 5)
     {
