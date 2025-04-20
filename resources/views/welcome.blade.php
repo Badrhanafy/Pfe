@@ -94,33 +94,27 @@
 
     <!-- Slider -->
     <!-- Slider -->
-<div id="mainSlider" class="carousel slide slider-height    " data-bs-ride="carousel">
+<div id="mainSlider" class="carousel slide slider-height" data-bs-interval="4000" data-bs-ride="carousel" data-bs-wrap="true">
     
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="http://127.0.0.1:8000/images/jardin.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Construction Services">
-            <div class="carousel-caption d-none d-md-block">
-                <h1 class="display-4 text-shadow text-white fw-bold">Does your garden need restoration or care?</h1>
-                <p class="text-shadow">Unparalleled craftsmanship, competitive pricing.</p>
-                <button class="btn btn-primary btn-lg">Find Experts</button>
+        @foreach($carousels as $index => $carousel)
+            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                <img src="{{ asset($carousel->image) }}" class="d-block w-100 h-100 object-fit-cover" alt="Carousel Image">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="display-4 text-shadow text-white fw-bold">{{ $carousel->title }}</h1>
+                    <p class="text-shadow">{{ $carousel->description }}</p>
+                    <button class="btn btn-primary btn-lg">Find Experts</button>
+                </div>
             </div>
-        </div>
-        <div class="carousel-item">
-            <img src="http://127.0.0.1:8000/images/homeServices.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Beauty Services">
-            <div class="carousel-caption d-none d-md-block">
-                <h1 class="display-4 text-shadow fw-bold">Revitalize with Expert Beauty & Wellness</h1>
-                <p class="text-shadow">Elevate your style with top-tier professionals.</p>
-                <button class="btn btn-primary btn-lg">Explore Services</button>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="http://127.0.0.1:8000/images/repair.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Repair Services">
-            <div class="carousel-caption d-none d-md-block">
-                <h1 class="display-4 text-shadow fw-bold">Need Car Repairs?</h1>
-                <p class="text-shadow">Connect with a wide range of specialists.</p>
-                <button class="btn btn-primary btn-lg">Find Mechanics</button>
-            </div>
-        </div>
+        @endforeach
+        <script>
+            const myCarousel = document.querySelector('#mainSlider');
+            const carousel = new bootstrap.Carousel(myCarousel, {
+                interval: 4000,
+                wrap: true
+            });
+        </script>
+        
     </div>
     
     <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">

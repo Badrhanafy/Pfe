@@ -56,9 +56,11 @@ class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purp
     <div class="flex items-center justify-between relative group">
         <!-- Profile Section -->
         <div class="flex items-center space-x-3">
-            <img class="h-12 w-12 rounded-full border-2 border-indigo-500"
+            
+                <img class="h-12 w-12 rounded-full border-2 border-indigo-500"
                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random"
                 alt="User Avatar">
+            
             <div>
                 <p class="text-sm font-semibold text-indigo-800 truncate">{{ Auth::user()->email }}</p>
                 <p class="text-xs text-gray-500">Admin</p>
@@ -99,13 +101,14 @@ class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purp
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        
+                        <a href="{{ route('settingsHome') }}">
                         <div class="flex items-center gap-2">
                             <img class="h-12 w-42" 
                                  src="http://127.0.0.1:8000/images/logo.png" 
                                  alt="User avatar">
                             
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>

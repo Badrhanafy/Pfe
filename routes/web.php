@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OperationsController;
+use App\Http\Controllers\SliderControllerr;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReactionController;
@@ -27,9 +29,10 @@ use App\Http\Controllers\PostController;
     });
 }); */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+})->name('welcome'); */
+Route::get('/', [HomeController::class, 'index'])->name('welcome');
 Route::get("/Userlogin",[LoginController::class,'loginform'])->name('loginform');
 Route::post("/Userlogin",[LoginController::class,'checklogin'])->name('checklogin');
 
@@ -150,6 +153,12 @@ Route::patch('/admin/artisan/update', [OperationsController::class, 'updateArtis
 Route::get('/admin/artisan/{id}', [OperationsController::class, 'showArtisan']);
 
 
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('carousels', \App\Http\Controllers\SliderControllerr::class);
+    Route::get('carousels/create', [SliderControllerr::class, 'create'])->name('carousels.create');
+    Route::post('carousels', [SliderControllerr::class, 'store'])->name('carousels.store');
+});
+Route::get('admin/settings', [SliderControllerr::class, 'index'])->name('settingsHome');
 ///// mochkil dyal routes mn hadou hhh
 Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
 Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\SiteSetting;
 use App\Models\Post;
 use App\Models\Artisan;
 class OperationsController extends Controller
@@ -118,6 +119,28 @@ public function updateArtisan(Request $request)
     }
 
     return redirect()->back()->with('success', 'Artisan updated successfully!');
+}
+public function settings(){
+    $setting = SiteSetting::first(); // ila 3andk row wa7ed
+    return view("adminpart.settings.index",compact('setting'));
+}
+public function changeImages(Request $request)
+{
+    $setting = SiteSetting::first(); // ila 3andk row wa7ed
+
+    if ($request->hasFile('slider_image')) {
+        $filename = $request->file('slider_image')->store('public/images');
+        $setting->slider_image = str_replace('public/', 'storage/', $filename);
+    }
+
+    if ($request->hasFile('banner_image')) {
+        $filename = $request->file('banner_image')->store('public/images');
+        $setting->banner_image = str_replace('public/', 'storage/', $filename);
+    }
+
+    $setting->save();
+
+    return back()->with('success', 'Settings updated!');
 }
 
 
