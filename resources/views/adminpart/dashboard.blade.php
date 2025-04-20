@@ -35,7 +35,7 @@ class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purp
             </a>
         </li>
         <li>
-            <a href="{{ route('AllPosts') }}"
+            <a href="{{ route('Artisans') }}"
                 class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
                 <i class="fa-solid fa-briefcase mr-3"></i>Manage Artisans
             </a>

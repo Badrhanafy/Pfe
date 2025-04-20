@@ -142,6 +142,14 @@ Route::delete('/users/{id}', [OperationsController::class, 'destdeleteUserroy'])
 // routes/web.php
 Route::delete('/admin/posts/{post}', [OperationsController::class, 'deletePost'])->name('removePost');
 
+
+// artsans dealing
+Route::get('/admin/artisans', [OperationsController::class, 'artisans'])->name('Artisans');
+Route::delete('/admin/artisans/{artisan}', [OperationsController::class, 'destroyArtisan'])->name('artisans.destroy');
+Route::put('/admin/artisan/update', [OperationsController::class, 'updateArtisan'])->name('update.artisan');
+Route::get('/admin/artisan/{id}', [OperationsController::class, 'showArtisan']);
+
+
 ///// mochkil dyal routes mn hadou hhh
 Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
 Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');

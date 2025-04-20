@@ -30,15 +30,16 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
-                        <i class="fa-solid fa-image mr-3"></i> Manage Posts
+                    <a href="{{ route('Artisans') }}" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
+                        <i class="fa-solid fa-comment mr-3"></i> Manage Artisans
                     </a>
                 </li>
                 <li>
                     <a href="#" class="flex items-center px-4 py-3 bg-indigo-200 hover:bg-indigo-300 rounded-lg transition-colors">
-                        <i class="fa-solid fa-comment mr-3"></i> Manage Comments
+                        <i class="fa-solid fa-image mr-3"></i> Manage Posts
                     </a>
                 </li>
+              
             </ul>
         </nav>
     

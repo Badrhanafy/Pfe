@@ -38,10 +38,7 @@ public function deleteUser($id)
 
     return back()->with('success', 'User deleted successfully!');
 }
-public function Artisans(){
-    $artisans = Artisan::all();
-    return view("adminpart.artisans.index",compact('artisans'));
-}
+
 public function posts()
 {
     $posts = Post::withCount(['comments', 'likes'])
@@ -55,6 +52,65 @@ public function deletePost($id){
     $post = Post::find($id);
     $post->delete();
     return back()->with('success', 'Post deleted successfully.');
+}
+
+// public function Artisans(){
+//     $artisans = Artisan::all();
+//     return view("adminpart.artisans.index",compact('artisans'));
+// }
+
+public function artisans(Request $request)
+{
+    $query = Artisan::withAvg('reviews', 'rating');
+
+    // Location filter
+    if ($request->filled('location')) {
+        $query->where('address', $request->location);
+    }
+
+    // Sorting
+    switch ($request->sort) {
+        case 'highest_rated':
+            $query->orderByDesc('reviews_avg_rating');
+            break;
+        case 'most_experience':
+            $query->orderByDesc('experience_years');
+            break;
+        case 'newest':
+        default:
+            $query->latest();
+            break;
+    }
+
+    $artisans = $query->paginate(10)->withQueryString();
+    $locations = Artisan::distinct()->pluck('address');
+
+    return view('adminpart.artisans.index', compact('artisans', 'locations'));
+}
+public function destroyArtisan($id){
+    $artisan = Artisan::find($id);
+    $artisan->delete();
+    return back()->with("success","artisan was successfuly deleted !");
+}
+public function showArtisan($id)
+{
+    $artisan = Artisan::findOrFail($id);
+    return response()->json($artisan);
+}
+
+public function updateArtisan(Request $request)
+{
+    $artisan = Artisan::findOrFail($request->id);
+    dd($request);
+    $artisan->update($request->only(['name', 'email', 'profession', 'address', 'experience_years']));
+
+    if ($request->hasFile('photo')) {
+        $path = $request->file('photo')->store('artisans', 'public');
+        $artisan->photo = $path;
+        $artisan->save();
+    }
+
+    return redirect()->back()->with('success', 'Artisan updated successfully!');
 }
 
 }
