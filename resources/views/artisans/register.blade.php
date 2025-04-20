@@ -20,7 +20,7 @@
     </x-alert>
 @endif
 
-<form method="POST" action="{{ route('register') }}">
+<form method="POST" action="{{ route('artisans.store') }}">
     @csrf
     <!-- Your form fields here -->
 </form>

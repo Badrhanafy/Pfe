@@ -13,7 +13,7 @@ class Artisan extends Authenticatable
      use Notifiable;
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'address', 
-        'profession', 'experience_years', 'bio', 'photo', 'is_verified'
+        'profession', 'experience_years', 'bio', 'photo'
     ];
 
     protected $casts = [

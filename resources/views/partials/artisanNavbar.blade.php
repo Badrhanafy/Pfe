@@ -364,7 +364,7 @@
                          class="profile-img" 
                          alt="Profile Image">
                     <div class="dropdown-content">
-                        <a href="{{ route('userProfile') }}">
+                        <a href="{{ route('ArtisanProfile',Auth::guard('artisans')->user()->id) }}">
                             <i class="fas fa-user"></i> My Profile
                         </a>
                         <a href="#">

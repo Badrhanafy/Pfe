@@ -101,8 +101,15 @@ public function showArtisan($id)
 public function updateArtisan(Request $request)
 {
     $artisan = Artisan::findOrFail($request->id);
-    dd($request);
-    $artisan->update($request->only(['name', 'email', 'profession', 'address', 'experience_years']));
+    //dd($request->all());
+
+    $artisan->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'profession' => $request->profession,
+        'address' => $request->address,
+        'experience_years' => $request->experience_years, // ولا experience_years إلا كان داكشي متناسق
+    ]);
 
     if ($request->hasFile('photo')) {
         $path = $request->file('photo')->store('artisans', 'public');
@@ -112,5 +119,6 @@ public function updateArtisan(Request $request)
 
     return redirect()->back()->with('success', 'Artisan updated successfully!');
 }
+
 
 }

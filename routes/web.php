@@ -146,7 +146,7 @@ Route::delete('/admin/posts/{post}', [OperationsController::class, 'deletePost']
 // artsans dealing
 Route::get('/admin/artisans', [OperationsController::class, 'artisans'])->name('Artisans');
 Route::delete('/admin/artisans/{artisan}', [OperationsController::class, 'destroyArtisan'])->name('artisans.destroy');
-Route::put('/admin/artisan/update', [OperationsController::class, 'updateArtisan'])->name('update.artisan');
+Route::patch('/admin/artisan/update', [OperationsController::class, 'updateArtisan'])->name('update.artisan');
 Route::get('/admin/artisan/{id}', [OperationsController::class, 'showArtisan']);
 
 

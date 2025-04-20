@@ -19,7 +19,7 @@ class ArtisanController extends Controller
     public function store(Request $request)
     {
         // Validate form data
-        $request->validate([
+       $artisanfields =  $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:artisans,email',
             'password' => 'required|string|min:8',
@@ -30,6 +30,7 @@ class ArtisanController extends Controller
             'bio' => 'nullable|string|max:500',
             'experience_years' => 'nullable|integer|min:1',
         ]);
+      //dd($artisan);
 
         // Handle the photo upload
         $photoPath = null;
@@ -51,8 +52,8 @@ class ArtisanController extends Controller
         ]);
          $id = $artisan['id'];
          // Send notification directly to artisan
-         $artisan->notify(new ArtisanCreated());
-        return view('artisans.profile',compact('id','artisan'))->with('success', 'Artisan created successfully');
+         //$artisan->notify(new ArtisanCreated());
+        return view('artisans.homepage',compact('id','artisan'))->with('success', 'Artisan created successfully');
     }
     //////// home
     public function index(Request $request)
