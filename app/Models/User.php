@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\Reactions;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Comments;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,6 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class, 'sender_id');
     }
+    public function announcements()
+{
+    return $this->hasMany(Announcement::class, 'admin_id');
+}
 
    
 }

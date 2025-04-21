@@ -8,6 +8,7 @@ use App\Http\Controllers\SliderControllerr;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArtisanController;
+
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\CommentController;
@@ -159,6 +160,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::post('carousels', [SliderControllerr::class, 'store'])->name('carousels.store');
 });
 Route::get('admin/settings', [SliderControllerr::class, 'index'])->name('settingsHome');
+//// Admin Announcements
+
 ///// mochkil dyal routes mn hadou hhh
 Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
 Route::put('/{artisan}', [ArtisanController::class, 'update'])->name('artisan.update');
