@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Artisan;
+use App\Models\Announcement;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +73,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+        $announcements = Announcement::latest()->take(6)->get();
         if (Auth::attempt($credentials)) {
 
             $user = Auth::user();
@@ -118,7 +119,11 @@ class LoginController extends Controller
                     "data" => $data,
                 ])->with("success", "Welcome to the main home");
             } else {
-                return view('artisans.index', compact('artisans', 'professions'));
+                return view('artisans.index', [
+                    "artisans" =>$artisans,
+                    "professions" =>$professions,
+                    "announcements" =>$announcements,
+                ]);
             }
         }
         else{

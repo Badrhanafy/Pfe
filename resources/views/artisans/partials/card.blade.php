@@ -1,8 +1,9 @@
 <div class="card h-100 shadow-sm border-0 overflow-hidden artisan-card">
     <!-- Cover Image -->
     <div class="card-cover position-relative" 
-         style="background-image: url('http://127.0.0.1:8000/images/logo.jpg');
-                height: 120px">
+         style="height: 120px; background: url('http://127.0.0.1:8000/images/logo.jpg') no-repeat center center / cover;">
+        
+        <!-- Gradient Overlay -->
         <div class="position-absolute bottom-0 start-0 end-0 h-50" 
              style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);"></div>
         
@@ -15,16 +16,20 @@
             </div>
         </div>
         
-        <!-- Profile Avatar -->
-        <div class="position-absolute top-100 start-0 translate-middle-y ms-3">
-            <img src="{{ $artisan->photo ? asset('storage/'.$artisan->photo) : asset('images/artisan.jpg') }}" 
-                 class="rounded-circle border border-3 border-white shadow-sm" 
-                 width="80" height="80" 
-                 alt="{{ $artisan->name }}"
-                 style="object-fit: cover;">
+        <!-- Profile Avatar - Now perfectly circular and prominent -->
+        <div class="position-absolute top-100 start-0 translate-middle-y ms-3" style="z-index: 3;">
+            <div class="avatar-frame" style="width: 85px; height: 85px;">
+                <div class="avatar-image-wrapper">
+                    <img src="{{ $artisan->photo ? asset('storage/'.$artisan->photo) : asset('images/artisan.jpg') }}" 
+                         class="avatar-image" 
+                         alt="{{ $artisan->name }}"
+                         style="object-fit: cover;">
+                </div>
+            </div>
         </div>
     </div>
     
+    <!-- Card Body -->
     <!-- Card Body -->
     <div class="card-body pt-5">
         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -63,3 +68,72 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Enhanced Avatar Styling */
+.avatar-frame {
+    position: relative;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    background: white;
+    padding: 3px;
+}
+
+.avatar-image-wrapper {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.artisan-card:hover .avatar-image {
+    transform: scale(1.05);
+}
+
+/* Cover Image Styling */
+.card-cover {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/* Gradient Overlay */
+.card-cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    z-index: 1;
+}
+
+/* Rating Badge Positioning */
+.position-absolute.top-0.end-0 {
+    z-index: 2;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .card-cover {
+        height: 100px;
+    }
+    
+    .avatar-frame {
+        width: 75px;
+        height: 75px;
+    }
+}
+</style>

@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.announcements.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('publishAnnouncement') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <div class="mb-3">
@@ -40,7 +40,7 @@
             <i class="fas fa-bullhorn me-1"></i> Create Announcement
         </button>
 
-        <a href="{{ route('admin.announcements.index') }}" class="btn btn-secondary ms-2">
+        <a href="{{ route('adminpart.announcements.index') }}" class="btn btn-secondary ms-2">
             Cancel
         </a>
     </form>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Notifications\MessageSent;
@@ -127,6 +128,10 @@ public function UserPosts(){
     $Userposts = $user->posts;
     return view('user.myPosts', compact('Userposts'));
 
+}
+public function artisansIndex(){
+    $announcements = Announcement::latest()->take(6)->get();
+    return view("artisans.index",compact("announcements"));
 }
 }
 

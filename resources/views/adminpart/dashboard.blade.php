@@ -244,7 +244,7 @@ class="fixed inset-y-0 left-0 z-40 w-64 bg-gradient-to-b from-indigo-300 to-purp
                 <div class="bg-white p-6 rounded-xl shadow-sm">
                     <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-1 gap-3">
-                        <a href="#" class="p-4 rounded-lg bg-indigo-50 hover:bg-indigo-100 transition-colors flex items-center">
+                        <a href="{{ route('announcementForm') }}" class="p-4 rounded-lg bg-indigo-50 hover:bg-indigo-100 transition-colors flex items-center">
                             <i class="fas fa-plus-circle mr-3 text-indigo-600"></i>
                             <span>Create New Post</span>
                         </a>

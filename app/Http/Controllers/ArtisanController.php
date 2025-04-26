@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artisan;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Notifications\NewUserMessageNotification;
@@ -58,6 +59,7 @@ class ArtisanController extends Controller
     //////// home
     public function index(Request $request)
     {
+        $announcements = Announcement::latest()->take(6)->get();
         $query = Artisan::query()
             ->withCount(['reviews as reviews_count'])
             ->withAvg(['reviews as average_rating'], 'rating')
@@ -92,7 +94,8 @@ class ArtisanController extends Controller
         return view('artisans.index', [
             'artisans' => $query->paginate(12),
             'professions' => $professions,
-            'filters' => $request->only(['search', 'profession', 'location', 'sort'])
+            'filters' => $request->only(['search', 'profession', 'location', 'sort']),
+            'announcements' => $announcements,
         ]);
     }    
     public function test()

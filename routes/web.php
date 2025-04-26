@@ -8,6 +8,7 @@ use App\Http\Controllers\SliderControllerr;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArtisanController;
+use App\Http\Controllers\Announcementscontroller;
 
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReactionController;
@@ -161,6 +162,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 });
 Route::get('admin/settings', [SliderControllerr::class, 'index'])->name('settingsHome');
 //// Admin Announcements
+Route::get("/createAnnouncement",[Announcementscontroller::class,"createForm"])->name("announcementForm");
+Route::get("/Allannouncements",[Announcementscontroller::class,"index"])->name("adminpart.announcements.index");
+Route::post("/announcements",[Announcementscontroller::class,"publish"])->name("publishAnnouncement");
 
 ///// mochkil dyal routes mn hadou hhh
 Route::get('/{artisan}', [ArtisanController::class, 'show'])->name('artisan.show');
