@@ -127,7 +127,7 @@
         <!-- Profile Intro -->
         <div class="profile-intro text-center magic-avatar">
             <div class="avatar-container">
-                <img src="{{ $artisan->photo ? asset('storage/' . $artisan->photo) : asset('images/avatar.avif') }}" 
+                <img src="{{ $artisan->photo ? asset('storage/' . $artisan->photo) :asset('images/artisan.jpg') }}" 
                      alt="{{ $artisan->name }}" class="avatar-img rounded-circle magic-hover">
                 <span class="status-indicator bg-success magic-pulse"></span>
             </div>

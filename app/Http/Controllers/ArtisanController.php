@@ -60,6 +60,11 @@ class ArtisanController extends Controller
     public function index(Request $request)
     {
         $announcements = Announcement::latest()->take(6)->get();
+        //popular artisans
+        $popularArtisans = Artisan::withAvg('reviews', 'rating')
+    ->orderByDesc('reviews_avg_rating')
+    ->take(6)
+    ->get();
         $query = Artisan::query()
             ->withCount(['reviews as reviews_count'])
             ->withAvg(['reviews as average_rating'], 'rating')
@@ -96,6 +101,7 @@ class ArtisanController extends Controller
             'professions' => $professions,
             'filters' => $request->only(['search', 'profession', 'location', 'sort']),
             'announcements' => $announcements,
+            'popularArtisans' => $popularArtisans,
         ]);
     }    
     public function test()

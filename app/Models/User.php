@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
+    use HasFactory;
     protected $fillable = ['name', 'email', 'password', 'phone', 'address', 'role','progilePhoto','gender','date_of_birth','is_blocked'];
 
     public function reviews()

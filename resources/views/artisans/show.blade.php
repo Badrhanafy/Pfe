@@ -13,11 +13,12 @@
                 <div class="card-body p-4">
                     <!-- Profile Header -->
                     <div class="text-center mb-4">
-                        <div class="profile-photo-preview mb-4">
-                            <img src="{{ asset('storage/' . ($artisan->photo ?? 'images/repair.jpg')) }}" 
+                        <div class="profile-photo-preview mb-4" >
+                            <img src="{{ $artisan->photo ? asset('storage/' . $artisan->photo) :asset('images/artisan.jpg') }}" 
                                  class="rounded-circle border border-white border-3" 
                                  style="width: 150px; height: 150px; object-fit: cover;" 
-                                 alt="{{ $artisan->name }}">
+                                 alt="{{ $artisan->name }}"
+                                 >
                         </div>
                         <h2 class="text-primary fw-bold mb-1">{{ $artisan->name }}</h2>
                         <p class="text-muted mb-3">{{ $artisan->profession }}</p>

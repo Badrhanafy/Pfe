@@ -5,68 +5,54 @@
     <div class="row g-0 h-100">
         <!-- Artisans Scrollable Column -->
         <div class="col-lg-8 artisan-column">
-            <div class="h-100 d-flex flex-column">
-                <!-- Filter Header -->
-                <div class="filter-header p-4 border-bottom bg-white">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="h4 fw-bold mb-0">
-                            <i class="fas fa-hammer me-2 text-primary"></i>
-                            Professional Artisans
-                        </h2>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" 
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-sort me-1"></i> Sort
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Name (A-Z)</a></li>
-                                <li><a class="dropdown-item" href="#">Name (Z-A)</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Rating (Low-High)</a></li>
-                                <li><a class="dropdown-item" href="#">Rating (High-Low)</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <form id="filterForm" method="GET" action="{{ route('artisans.index') }}">
-                        <div class="row g-3">
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white">
-                                        <i class="fas fa-search text-muted"></i>
-                                    </span>
-                                    <input type="text" class="form-control" 
-                                           name="search" placeholder="Search by name or profession..."
-                                           value="{{ request('search') }}">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <select class="form-select" name="profession">
-                                    <option value="">All Professions</option>
-                                    @foreach ($professions as $profession)
-                                        <option value="{{ $profession }}"
-                                            {{ request('profession') == $profession ? 'selected' : '' }}>
-                                            {{ $profession }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-3 d-flex">
-                                <button type="submit" class="btn btn-primary flex-grow-1">
-                                    <i class="fas fa-filter me-2"></i>Filter
-                                </button>
-                                <a href="{{ route('artisans.index') }}" class="btn btn-outline-secondary ms-2">
-                                    <i class="fas fa-undo"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+            <div class="filter-header p-4 border-bottom bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 fw-bold mb-0">
+                        <i class="fas fa-hammer me-2 text-primary"></i>
+                        Professional Artisans
+                    </h2>
+                    
                 </div>
 
-                <!-- Scrollable Artisans Grid -->
-                <div class="artisan-scrollable flex-grow-1 overflow-auto p-4">
+                <form id="filterForm" method="GET" action="{{ route('artisans.index') }}">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control" 
+                                       name="search" placeholder="Search by name or profession..."
+                                       value="{{ request('search') }}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <select class="form-select" name="profession">
+                                <option value="">All Professions</option>
+                                @foreach ($professions as $profession)
+                                    <option value="{{ $profession }}"
+                                        {{ request('profession') == $profession ? 'selected' : '' }}>
+                                        {{ $profession }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 d-flex">
+                            <button type="submit" class="btn btn-primary flex-grow-1">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                            <a href="{{ route('artisans.index') }}" class="btn btn-outline-secondary ms-2">
+                                <i class="fas fa-undo"></i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+            <div class="artisan-scrollable flex-grow-1 overflow-auto">
+                <div class="p-4">
                     <div class="row g-4">
                         @foreach ($artisans as $artisan)
                             <div class="col-12">
@@ -77,6 +63,7 @@
                 </div>
             </div>
         </div>
+        
 
         <!-- Fixed Announcements Sidebar -->
         <div class="col-lg-4 announcement-sidebar bg-light border-start">
@@ -122,6 +109,77 @@
         </div>
     </div>
 </div>
+<div class="popular-artisans p-4 bg-light rounded shadow-sm mb-5">
+    <h3 class="mb-4">Popular Artisans</h3>
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            @foreach ($popularArtisans as $artisan)
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="{{ $artisan->photo ? asset('storage/'.$artisan->photo) : asset('images/artisan.jpg') }}" class="card-img-top" alt="{{ $artisan->name }}">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $artisan->name }}</h5>
+                            <p class="card-text mb-1">
+                                <strong>Profession:</strong> {{ $artisan->profession }}
+                            </p>
+                            <p class="card-text small text-muted">
+                                {{ Str::limit($artisan->bio, 60) }}
+                            </p>
+                        </div>
+
+                        <div class="card-footer bg-white">
+                            <small class="text-muted">⭐ {{ number_format($artisan->average_rating, 1) }} / 5</small>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Buttons for Next/Prev -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Pagination Dots -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          loop: true,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+          breakpoints: {
+            640: {
+              slidesPerView: 1,
+            },
+            768: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          },
+        });
+      </script>
+      <style>
+               .swiper-slide .card-img-top {
+        height: 220px;
+        object-fit: cover;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+    }
+      </style>
+    
+</div>
+
 
 @section('scripts')
 <script>
@@ -146,8 +204,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+<!-- Swiper CSS -->
+
 
 <style>
+    .popular-artisans .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
 .professional-layout {
     height: 100vh;
     overflow: hidden;
@@ -177,6 +244,13 @@ document.addEventListener('DOMContentLoaded', function() {
 .artisan-scrollable::-webkit-scrollbar-thumb {
     background-color: #dee2e6;
     border-radius: 3px;
+}
+.artisan-scrollable {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    margin-top: 0; /* مهمة */
+    height: 0; /* هادي مهمة باش يخدم flex-grow مزيان */
 }
 
 .announcement-sidebar {

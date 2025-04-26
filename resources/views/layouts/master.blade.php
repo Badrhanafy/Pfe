@@ -14,13 +14,16 @@
     <link rel="icon" type="image/svg+xml" href="http://127.0.0.1:8000/images/icon.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <title>Khdemli</title>
     @livewireStyles
 
 </head>
 
 <body>
+    <!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
     <nav>
         
     </nav>
