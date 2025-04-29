@@ -74,6 +74,13 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         $announcements = Announcement::latest()->take(6)->get();
+        // get most raited artisan's profiles
+        $popularArtisans = Artisan::withAvg('reviews', 'rating')
+    ->orderByDesc('reviews_avg_rating')
+    ->withCount(['reviews as reviews_count'])
+    ->withAvg(['reviews as average_rating'], 'rating')
+    ->take(6)
+    ->get();
         if (Auth::attempt($credentials)) {
 
             $user = Auth::user();
@@ -123,6 +130,7 @@ class LoginController extends Controller
                     "artisans" =>$artisans,
                     "professions" =>$professions,
                     "announcements" =>$announcements,
+                    "popularArtisans" =>$popularArtisans,
                 ]);
             }
         }

@@ -347,7 +347,7 @@
                 </div>
                 @endguest
                 @guest
-                   fuck
+                   test
                 @endguest
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {

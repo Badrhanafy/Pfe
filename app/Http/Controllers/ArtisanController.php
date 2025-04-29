@@ -59,10 +59,12 @@ class ArtisanController extends Controller
     //////// home
     public function index(Request $request)
     {
-        $announcements = Announcement::latest()->take(6)->get();
+        $announcements = Announcement::latest()->get();
         //popular artisans
         $popularArtisans = Artisan::withAvg('reviews', 'rating')
     ->orderByDesc('reviews_avg_rating')
+    ->withCount(['reviews as reviews_count'])
+    ->withAvg(['reviews as average_rating'], 'rating')
     ->take(6)
     ->get();
         $query = Artisan::query()
